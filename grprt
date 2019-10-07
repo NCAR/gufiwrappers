@@ -10,6 +10,6 @@ passwdfile=$HPSSMDATA/$pwddir/passwd
 source /etc/profile.d/modules.sh
 ml purge
 ml python
-ncar_pylib
+ncar_pylib > /dev/null
 
 $EXEDIR/grprt.py --passwdfile $passwdfile $*

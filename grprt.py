@@ -16,6 +16,10 @@ def dataByDir( size, uid, mtime, atime, proj, fname, path ):
 
 uid2uname = {}
 def uidToUname( passwdfile ):
+   """
+   This is for reporting purpose to create table between user-name
+   and uid.
+   """
    global uid2uname
    if passwdfile is None:
       return
@@ -29,6 +33,9 @@ def uidToUname( passwdfile ):
 
 
 def parseNfill( fl ):
+   """
+   Core function scheduled / map using multiprocessing module
+   """
    global activefunc
    ref = {}
    with open(fl) as fh:
@@ -43,6 +50,7 @@ def parseNfill( fl ):
             exit(-1)
    return ref
 
+
 def tsToYrMnIdx( tme ):
    """returns yr month index from unix time"""
    yr, mn = datetime.fromtimestamp(tme).strftime('%Y,%m').split(',')
@@ -51,11 +59,13 @@ def tsToYrMnIdx( tme ):
    return (yr - 1970)*12 + (mn - 1)
 
 def yrMnIdxToTs( idx ):
+   """Generates Unix time stamp from month inde since 01/01/1970"""
    yr = int( idx / 12 )
    mn = (idx - 12*yr)
    return datetime((1970 + yr), (1 + mn), 1).timestamp()
    
 def idxToYrMnStr( idx ):
+   """Generates the yymm string from index"""
    ts = yrMnIdxToTs( idx )
    return datetime.fromtimestamp(ts).strftime('%y%m')
 
