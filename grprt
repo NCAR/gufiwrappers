@@ -1,0 +1,15 @@
+#!/bin/bash
+
+EXEDIR=$(dirname ${BASH_SOURCE[0]})
+echo $EXEDIR
+
+HPSSMDATA=/glade/u/hpssusrs/HPSS
+pwddir=$(ls $HPSSMDATA|head -1)
+passwdfile=$HPSSMDATA/$pwddir/passwd
+
+source /etc/profile.d/modules.sh
+ml purge
+ml python
+ncar_pylib
+
+$EXEDIR/grprt.py --passwdfile $passwdfile $*
