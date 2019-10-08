@@ -11,6 +11,7 @@ MAXHBINS = 1024  # Maximum histogram bins
 # size,uid,mtime,atime,xattrs,name,path() for HPSS mtime is replaced by ctime
 xattrs2proj = {}
 uid2uname = {}
+prefixdir = '/'
 
 def dataByDir( size, uid, mtime, atime, proj, fname, path ):
    """
@@ -32,6 +33,12 @@ def uidToUname( passwdfile ):
               uname = tmp[0]
               uid2uname[uid] = uname    
 
+def qryUidToUname( uid ):
+   if uid in uid2uname:
+      return uid2uname[uid]
+   else:
+      return str(uid)
+
 
 def xattrsToProjname( projmap ):
    """
@@ -49,7 +56,12 @@ def xattrsToProjname( projmap ):
               projname = tmp[-2]
               xattrs2proj[projid] = projname    
 
- 
+def qryProjidToProjname( projid ):
+   if projid in xattrs2proj:
+      return xattrs2proj[projid]
+   else:
+      return str(projid)
+
 def parseNfill( fl ):
    """
    Core function scheduled / map using multiprocessing module
@@ -62,6 +74,8 @@ def parseNfill( fl ):
          try:
             size = int(tmp[0]); uid = int(tmp[1]); mtime = int(tmp[2]); 
             atime = int(tmp[3]); proj = int(tmp[4]); fname = tmp[5]; path = tmp[6];
+            if atime < mtime:
+               atime = mtime
             activefunc( ref, size, uid, mtime, atime, proj, fname, path )
          except:
             print(fl)
@@ -88,11 +102,9 @@ def idxToYrMnStr( idx ):
    return datetime.fromtimestamp(ts).strftime('%y%m')
 
 
-def dataByUid( ref, size, uid, mtime, atime, proj, fname, path ):
+def fillData( ref, size, uid, mtime, atime, proj, fname, path ):
    """
    """
-   if atime < mtime:
-      atime = mtime
    if uid not in ref:
       ref[uid] = {'size': 0.0, 'count': 0, 
                   'wHist': np.zeros(MAXHBINS), 
@@ -105,21 +117,43 @@ def dataByUid( ref, size, uid, mtime, atime, proj, fname, path ):
    entry['wHist'][whidx] += size
    entry['rHist'][rhidx] += size
 
-def conCatDataByUid( resfromtasks ):
+def dataByUids( ref, size, uid, mtime, atime, proj, fname, path ):
+   """
+   """
+   fillkey = uid
+   fillData( ref, size, fillkey, mtime, atime, proj, fname, path )
+
+def dataByProjs( ref, size, uid, mtime, atime, proj, fname, path ):
+   """
+   """
+   fillkey = proj
+   fillData( ref, size, fillkey, mtime, atime, proj, fname, path )
+
+def dataBySubdirs( ref, size, uid, mtime, atime, proj, fname, path ):
+   """
+   """
+   global prefixdir
+   if path.startswith(prefixdir):
+      lpref = len(prefixdir)
+      tmp = path[lpref+1:].split('/')
+      fillkey = tmp[0]
+      fillData( ref, size, fillkey, mtime, atime, proj, fname, path )
+
+def conCatDataByKey( resfromtasks ):
    totres = resfromtasks[0]
    for ent in resfromtasks[1:]:
-      for uid in ent.keys():
-         entuid = ent[uid]
+      for key in ent.keys():
+         entuid = ent[key]
          if uid in totres:
-            tot = totres[uid]
+            tot = totres[key]
             tot['size'] += entuid['size']
             tot['count'] += entuid['count']
             tot['wHist'] += entuid['wHist']
             tot['rHist'] += entuid['rHist']
          else:
             totres[uid] = entuid
-   for uid in totres.keys():
-      tot = totres[uid]
+   for key in totres.keys():
+      tot = totres[key]
       tot['wHist'] /= tot['size']
       tot['rHist'] /= tot['size']
    return totres
@@ -141,7 +175,7 @@ def prtOneCharLine( char, n ):
       print("%1s" % char, end="")
    print( )
          
-def displayDataByUid( results, nh ):
+def displayDataByKey( results, nh, keyid ):
    global uid2uname
    uids = sorted(results.items(), key=lambda kv: kv[1]['size'], reverse=True)
    prtOneCharLine( "=", (43+nh*6) )
@@ -151,7 +185,6 @@ def displayDataByUid( results, nh ):
       totsz += float(vals['size'])
       totct += 1
    print("%34s %40s" % ("","(Write / Read) stats over yymm"))
-   print("%-8s " % "Unm/id", end=" ")
    print("%9s " % "Size(TB)", end=" ")
    print("%5s " % "%-age", end=" ")
    print("%5s " % "Cum-%", end=" ")
@@ -159,18 +192,19 @@ def displayDataByUid( results, nh ):
    for i in range(nh):
       f = 100.0*float(i+1)/nh
       print("%4.1f " % f, end=" ")
-   print( )
+   print("%-8s " % keyid)
    prtOneCharLine( "-", (43+nh*6) )
    cumperc = 0.0
    for uid, vals in uids:
       sizetb = float(vals['size'])/float(10.**12)
       perc = 100.0*float(vals['size'])/totsz
       cumperc += perc
-      if uid in uid2uname:
-         uname = uid2uname[uid]
+      if keyid == "Uids":
+         keyname = qryUidToUname( uid )
+      elif keyid == "Projs":
+         keyname = qryProjidToProjname( uid )
       else:
-         uname = str(uid)
-      print("%-8s " % uname, end=" ")
+         keyname = uid
       print("%9.3e " % sizetb, end=" ")
       print("%5.1f " % perc, end=" ")
       print("%5.1f " % cumperc, end=" ")
@@ -179,21 +213,21 @@ def displayDataByUid( results, nh ):
       rhist = getDsplyIdx( vals['rHist'], nh )
       for ent in whist:
          print("%4s " % ent, end=" ")
-      print( )
-      print("%43s" % "", end=" ")
+      print("%-s " % keyname)
+      print("%33s" % "", end=" ")
       for ent in rhist:
          print("%4s " % ent, end=" ")
       print( )
 
 
-def getDataByUid(np, cfiles ):
+def getDataByFields(np, databyfields, cfiles ):
    global activefunc
-   activefunc = dataByUid
+   activefunc = databyfields
    p = Pool(np)
    resfromtasks = p.map(parseNfill, cfiles)
    p.close()
    p.join()
-   return conCatDataByUid( resfromtasks )
+   return conCatDataByKey( resfromtasks )
 
 defcachepref = os.path.join('/gpfs/fs1/scratch', os.environ['LOGNAME'], 'gufi_cache')
 
@@ -207,7 +241,7 @@ parser.add_argument('--projmapfile', dest='projmapfile', help='projmap file')
 parser.add_argument(dest='cache_files', nargs='+',  help='All cache files generated by gext_cache')
 args = parser.parse_args()
 
-tree = args.tree
+prefixdir = args.tree
 cachedir = args.cd
 cfiles = args.cache_files
 ncores = int(args.ncores)
@@ -217,5 +251,12 @@ projmapfile = args.projmapfile
 
 uidToUname( passwdfile )
 xattrsToProjname( projmapfile )
-res = getDataByUid(ncores, cfiles )
-displayDataByUid( res, nsbins )
+
+#res = getDataByFields(ncores, dataByUids, cfiles )
+#displayDataByKey( res, nsbins, "Uids" )
+
+res = getDataByFields(ncores, dataByProjs, cfiles )
+displayDataByKey( res, nsbins, "Projs" )
+
+#res = getDataByFields(ncores, dataBySubdirs, cfiles )
+#displayDataByKey( res, nsbins, "Subdirs" )
