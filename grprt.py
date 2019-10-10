@@ -102,13 +102,17 @@ def idxToYrMnStr( idx ):
    return datetime.fromtimestamp(ts).strftime('%y%m')
 
 
+def crEntry( ):
+   """returns an initialized empty row"""
+   return {'size': 0.0, 'count': 0, 
+           'wHist': np.zeros(MAXHBINS), 
+           'rHist': np.zeros(MAXHBINS)} 
+
 def fillData( ref, size, uid, mtime, atime, proj, fname, path ):
    """
    """
    if uid not in ref:
-      ref[uid] = {'size': 0.0, 'count': 0, 
-                  'wHist': np.zeros(MAXHBINS), 
-                  'rHist': np.zeros(MAXHBINS)} 
+      ref[uid] = crEntry( )
    entry = ref[uid]
    entry['size'] += size
    entry['count'] += 1
@@ -119,18 +123,19 @@ def fillData( ref, size, uid, mtime, atime, proj, fname, path ):
 
 def dataByUids( ref, size, uid, mtime, atime, proj, fname, path ):
    """
+   Function for storing rows per uid
    """
-   fillkey = uid
-   fillData( ref, size, fillkey, mtime, atime, proj, fname, path )
+   fillData( ref, size, uid, mtime, atime, proj, fname, path )
 
 def dataByProjs( ref, size, uid, mtime, atime, proj, fname, path ):
    """
+   Function for storing rows per projects
    """
-   fillkey = proj
-   fillData( ref, size, fillkey, mtime, atime, proj, fname, path )
+   fillData( ref, size, proj, mtime, atime, proj, fname, path )
 
 def dataBySubdirs( ref, size, uid, mtime, atime, proj, fname, path ):
    """
+   Function for storing rows per subdirs
    """
    global prefixdir
    if path.startswith(prefixdir):
@@ -140,23 +145,32 @@ def dataBySubdirs( ref, size, uid, mtime, atime, proj, fname, path ):
       fillData( ref, size, fillkey, mtime, atime, proj, fname, path )
 
 def conCatDataByKey( resfromtasks ):
+   """
+   Gathers all the data from all multiprocessing tasks and sums those
+   to that of task-0
+   """
    totres = resfromtasks[0]
    for ent in resfromtasks[1:]:
       for key in ent.keys():
          entuid = ent[key]
-         if uid in totres:
+         if key in totres:
             tot = totres[key]
-            tot['size'] += entuid['size']
-            tot['count'] += entuid['count']
-            tot['wHist'] += entuid['wHist']
-            tot['rHist'] += entuid['rHist']
+            for attr in tot.keys():
+               tot[attr] += entuid[attr]
          else:
-            totres[uid] = entuid
+            totres[key] = entuid
+   ct = 0
+   totrow = crEntry( )
    for key in totres.keys():
       tot = totres[key]
       tot['wHist'] /= tot['size']
       tot['rHist'] /= tot['size']
-   return totres
+      for attr in tot.keys():
+          totrow[attr] += tot[attr]
+      ct += 1
+   totrow['wHist'] /= ct
+   totrow['rHist'] /= ct
+   return totres, totrow
 
 def getDsplyIdx( hist, nh ):
    """ Returns an array of nh yrmn entries """
@@ -175,16 +189,12 @@ def prtOneCharLine( char, n ):
       print("%1s" % char, end="")
    print( )
          
-def displayDataByKey( results, nh, keyid ):
-   global uid2uname
-   uids = sorted(results.items(), key=lambda kv: kv[1]['size'], reverse=True)
+def displayHeaders( nh, keyid ):
+   """
+   Given display key prints the headers
+   """
    prtOneCharLine( "=", (43+nh*6) )
-   totsz = 0.0
-   totct = 0
-   for uid, vals in uids:
-      totsz += float(vals['size'])
-      totct += 1
-   print("%34s %40s" % ("","(Write / Read) stats over yymm"))
+   print("%34s %40s" % ("","% (Write / Read) stats over yymm"))
    print("%9s " % "Size(TB)", end=" ")
    print("%5s " % "%-age", end=" ")
    print("%5s " % "Cum-%", end=" ")
@@ -194,30 +204,44 @@ def displayDataByKey( results, nh, keyid ):
       print("%4.1f " % f, end=" ")
    print("%-8s " % keyid)
    prtOneCharLine( "-", (43+nh*6) )
+
+
+def displayRow( keyid, uid, row, totrow, cumperc, nh ): 
+   """
+   Display each row
+   """
+   perc = 100.0*float(row['size'])/float(totrow['size'])
+   cumperc += perc
+   sizetb = float(row['size'])/float(10.**12)
+   print("%9.3e " % sizetb, end=" ")
+   print("%5.1f " % perc, end=" ")
+   print("%5.1f " % cumperc, end=" ")
+   print("%7.1e " % float(row['count']), end=" " )
+   whist = getDsplyIdx( row['wHist'], nh )
+   rhist = getDsplyIdx( row['rHist'], nh )
+   for ent in whist:
+      print("%4s " % ent, end=" ")
+   if keyid == "Uname/Uids":
+      keyname = qryUidToUname( uid )
+   elif keyid == "Projs":
+      keyname = qryProjidToProjname( uid )
+   else:
+      keyname = uid
+   print("%-s " % keyname)
+   print("%33s" % "", end=" ")
+   for ent in rhist:
+      print("%4s " % ent, end=" ")
+   print( )
+   return cumperc
+
+def displayDataByKey( results, totrow, nh, keyid ):
+   global uid2uname
+   displayHeaders( nh, keyid )
+   uids = sorted(results.items(), key=lambda kv: kv[1]['size'], reverse=True)
    cumperc = 0.0
-   for uid, vals in uids:
-      sizetb = float(vals['size'])/float(10.**12)
-      perc = 100.0*float(vals['size'])/totsz
-      cumperc += perc
-      if keyid == "Uids":
-         keyname = qryUidToUname( uid )
-      elif keyid == "Projs":
-         keyname = qryProjidToProjname( uid )
-      else:
-         keyname = uid
-      print("%9.3e " % sizetb, end=" ")
-      print("%5.1f " % perc, end=" ")
-      print("%5.1f " % cumperc, end=" ")
-      print("%7.1e " % float(vals['count']), end=" " )
-      whist = getDsplyIdx( vals['wHist'], nh )
-      rhist = getDsplyIdx( vals['rHist'], nh )
-      for ent in whist:
-         print("%4s " % ent, end=" ")
-      print("%-s " % keyname)
-      print("%33s" % "", end=" ")
-      for ent in rhist:
-         print("%4s " % ent, end=" ")
-      print( )
+   displayRow( keyid, "Total", totrow, totrow, cumperc, nh )
+   for uid, row in uids:
+      cumperc = displayRow( keyid, uid, row, totrow, cumperc, nh )
 
 
 def getDataByFields(np, databyfields, cfiles ):
@@ -252,11 +276,11 @@ projmapfile = args.projmapfile
 uidToUname( passwdfile )
 xattrsToProjname( projmapfile )
 
-#res = getDataByFields(ncores, dataByUids, cfiles )
-#displayDataByKey( res, nsbins, "Uids" )
+res, total = getDataByFields(ncores, dataByUids, cfiles )
+displayDataByKey( res, total, nsbins, "Uname/Uids" )
 
-res = getDataByFields(ncores, dataByProjs, cfiles )
-displayDataByKey( res, nsbins, "Projs" )
+#res = getDataByFields(ncores, dataByProjs, cfiles )
+#displayDataByKey( res, nsbins, "Projs" )
 
 #res = getDataByFields(ncores, dataBySubdirs, cfiles )
 #displayDataByKey( res, nsbins, "Subdirs" )
