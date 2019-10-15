@@ -12,10 +12,8 @@ MAXHBINS = 1024  # Maximum histogram bins
 xattrs2proj = {}
 uid2uname = {}
 prefixdir = '/'
-
-def dataByDir( size, uid, mtime, atime, proj, fname, path ):
-   """
-   """
+basedir = ""
+basedirlen = 2**31
 
 def uidToUname( passwdfile ):
    """
@@ -125,6 +123,8 @@ def dataByUids( ref, size, uid, mtime, atime, proj, fname, path ):
    """
    Function for storing rows per uid
    """
+   global basedir, basedirlen
+   if len
    fillData( ref, size, uid, mtime, atime, proj, fname, path )
 
 def dataByProjs( ref, size, uid, mtime, atime, proj, fname, path ):
