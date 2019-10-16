@@ -1,6 +1,13 @@
+# This set of functions are for mapping 
+#    uid             <=> uname
+#    projid          <=> project name (HPSS only)
+#    filesystem name <=> search prefix name
 
-uid2uname = {}
-uname2uid = {}
+uid2uname = {}   # dict   uid: uname
+uname2uid = {}   # dict uname: uid
+pid2pname = {}   # dict   pid: project name
+pname2pid = {}   # dict pname: pid
+
 
 def getLatestHpssFile( fname ):
    """
@@ -38,6 +45,11 @@ def fillUidUnameTable( fname ):
 
 
 def getUname( uid ):
+   """ 
+   Mapping functions called from elsewhere returns
+   uname given uid as argument, will return uid itself
+   if no matching map found
+   """
    if not bool(uname2uid):
       fillUidUnameTable( 'passwd' )
    if uid in uid2uname:
@@ -47,6 +59,11 @@ def getUname( uid ):
 
 
 def getUid( uname ):
+   """ 
+   Mapping functions called from elsewhere returns
+   uid given uname as argument will return uname itself
+   if no matching map found (practically impossible)
+   """
    if not bool(uid2uname):
       fillUidUnameTable( 'passwd' )
    if uname in uname2uid:
@@ -54,9 +71,6 @@ def getUid( uname ):
    else:
       return uname
 
-
-pid2pname = {}
-pname2pid = {}
 
 def fillPidPnameTable( fname ):
    """
@@ -79,6 +93,11 @@ def fillPidPnameTable( fname ):
 
 
 def getPname( pid ):
+   """ 
+   Mapping functions called from elsewhere returns project name given 
+   project id as argument will return project name itself if no matching 
+   map found.
+   """
    if not bool(pname2pid):
       fillPidPnameTable( 'accounts' )
    if pid in pid2pname:
@@ -88,6 +107,11 @@ def getPname( pid ):
 
 
 def getPid( pname ):
+   """ 
+   Mapping functions called from elsewhere returns project name given 
+   project id as argument, will return project name itself if no matching 
+   map found.
+   """
    if not bool(pid2pname):
       fillPidPnameTable( 'accounts' )
    if pname in pname2pid:
