@@ -1,8 +1,6 @@
 
 uid2uname = {}
 uname2uid = {}
-pid2pname = {}
-pname2pid = {}
 
 def getLatestHpssFile( fname ):
    """
@@ -57,6 +55,9 @@ def getUid( uname ):
       return uname
 
 
+pid2pname = {}
+pname2pid = {}
+
 def fillPidPnameTable( fname ):
    """
    In case the maps are empty this is called to fill in the map
@@ -93,4 +94,24 @@ def getPid( pname ):
       return pname2pid[pname]
    else:
       return pname
+
+
+def fsnameToSearch( fsname ):
+   if fsname.startswith('/gpfs/csfs1'):
+      return '/search/campaign' + fsname[11:]
+   elif fsname.startswith('/gpfs/fs1/p'):
+      return '/search/p' + fsname[11:]
+   elif fsname.startswith('/glade/p'):
+      return '/search/p' + fsname[8:]
+   else:
+      return '/search/hpss' + fsname
+
+def searchToFsname( sname ):
+   if sname.startswith('/search/campaign'):
+      return '/gpfs/csfs1' + sname[16:]
+   elif sname.startswith('/search/p'):
+      return '/glade/p' + sname[9:]
+   else:
+      return sname[12:]
+
 
