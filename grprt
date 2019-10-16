@@ -3,14 +3,9 @@
 EXEDIR=$(dirname ${BASH_SOURCE[0]})
 echo $EXEDIR
 
-HPSSMDATA=/glade/u/hpssusrs/HPSS
-pwddir=$(ls $HPSSMDATA|head -1)
-passwdfile=$HPSSMDATA/$pwddir/passwd
-accountfile=$HPSSMDATA/$pwddir/accounts
-
 source /etc/profile.d/modules.sh
 ml purge
 ml python
 ncar_pylib > /dev/null
 
-$EXEDIR/grprt.py --passwdfile $passwdfile --projmapfile $accountfile $*
+$EXEDIR/grprt.py $*

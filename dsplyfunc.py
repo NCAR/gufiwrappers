@@ -6,11 +6,12 @@ def prtOneCharLine( char, n ):
       print("%1s" % char, end="")
    print( )
 
-def displayHeaders( nh, keyid ):
+def displayHeaders( nh, keyid, basedir ):
    """
    Given display key prints the headers
    """
    prtOneCharLine( "=", (43+nh*6) )
+   print(" Base directory for this report: %s" % gm.searchToFsname(basedir))
    print("%34s %40s" % ("","% (Write / Read) stats over yymm"))
    print("%9s " % "Size(TB)", end=" ")
    print("%5s " % "%-age", end=" ")
@@ -51,9 +52,9 @@ def displayRow( keyid, uid, row, totrow, cumperc, nh ):
    return cumperc
 
 
-def displayDataByKey( results, totrow, nh, keyid ):
+def displayDataByKey( results, totrow, basedir, nh, keyid ):
    global uid2uname
-   displayHeaders( nh, keyid )
+   displayHeaders( nh, keyid, basedir )
    uids = sorted(results.items(), key=lambda kv: kv[1]['size'], reverse=True)
    cumperc = 0.0
    displayRow( keyid, "Total", totrow, totrow, cumperc, nh )

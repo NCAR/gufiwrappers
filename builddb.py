@@ -1,12 +1,20 @@
-
 import numpy as np
 import timefuncs as tm
+
+
+def largestMatch( x, y ):
+   minlxy = min(len(x),len(y))
+   for i in range(minlxy):
+      if x[i] != y[i]:
+         return y[:i]
+   return x[:minlxy]
 
 def parseNfill( fl ):
    """
    Core function scheduled / map using multiprocessing module
    """
    global activefunc
+   basedir = ''
    ref = {}
    with open(fl) as fh:
       for line in fh:
@@ -16,11 +24,15 @@ def parseNfill( fl ):
             atime = int(tmp[3]); proj = int(tmp[4]); fname = tmp[5]; path = tmp[6];
             if atime < mtime:
                atime = mtime
+            if len(basedir) == 0:
+               basedir = path
+            else:
+               basedir = largestMatch( basedir, path )
             activefunc( ref, size, uid, mtime, atime, proj, fname, path )
          except:
             print(fl)
             exit(-1)
-   return ref
+   return ref, basedir
 
 
 def crEntry( ):
@@ -75,8 +87,9 @@ def conCatDataByKey( resfromtasks ):
    Gathers all the data from all multiprocessing tasks and sums those
    to that of task-0
    """
-   totres = resfromtasks[0]
-   for ent in resfromtasks[1:]:
+   totres, basedir = resfromtasks[0]
+   for ent, tmpbasedir in resfromtasks[1:]:
+      basedir = largestMatch( basedir, tmpbasedir )
       for key in ent.keys():
          entuid = ent[key]
          if key in totres:
@@ -96,7 +109,7 @@ def conCatDataByKey( resfromtasks ):
       ct += 1
    totrow['wHist'] /= ct
    totrow['rHist'] /= ct
-   return totres, totrow
+   return totres, totrow, basedir
 
 
 
