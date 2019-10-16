@@ -4,22 +4,27 @@ import os
 import argparse
 import numpy as np
 import builddb as bdb
+import gmapfuncs as gmap
 import dsplyfunc as dpy
 from multiprocessing import Pool
 from datetime import datetime
 import time
 
 bdb.MAXHBINS = 1024  # Maximum histogram bins
-# size,uid,mtime,atime,xattrs,name,path() for HPSS mtime is replaced by ctime
-prefixdir = '/'
-bdb.prefixdir = '/search/hpss/CCSM/paleo'
-basedir = ""
-basedirlen = 2**31
 
 
 defcachepref = os.path.join('/gpfs/fs1/scratch', os.environ['LOGNAME'], 'gufi_cache')
 
 parser = argparse.ArgumentParser(description='Cache tree DB for finegrain queries')
+
+grprprtby = parser.add_mutually_exclusive_group(required=True)
+grprprtby.add_argument('--by-uid', dest='byuid', action='store_true', help='report by user-id / user-name')
+grprprtby.add_argument('--by-pid', dest='bypid', action='store_true', help='report by project-id / project-name')
+grprprtby.add_argument('--by-subdirs-of=', dest='subdirsof', help='Subdirectories of directory')
+
+parser.add_argument('--filter-by-uids', dest='fbyuids', nargs='+', help='Number of cores / threads to run')
+parser.add_argument('--filter-by-pids', dest='fbypids', nargs='+', help='Number of cores / threads to run')
+
 parser.add_argument('-n', '--ncores', dest='ncores', default=1, help='Number of cores / threads to run')
 parser.add_argument('--nsbins', dest='nsbins', default=8, help='Number of write / read stat bins')
 parser.add_argument('-d', '--tree', dest='tree', help='Directory against which to launch the query')
@@ -30,12 +35,20 @@ prefixdir = args.tree
 cfiles = args.cache_files
 ncores = int(args.ncores)
 nsbins = int(args.nsbins)
+print(args.byuid,args.bypid,args.subdirsof)
+print(type(args.fbyuids),args.fbyuids)
+print(type(args.fbypids),args.fbypids)
 
-res, total, basedir = bdb.getDataByFields(ncores, bdb.dataByUids, cfiles )
-dpy.displayDataByKey( res, total, basedir, nsbins, "Uname/Uids" )
+if args.byuid:
+   activefunc = bdb.dataByUids
+   header = "Uname/Uids"
+elif args.bypid:
+   activefunc = bdb.dataByProjs
+   header = "Projs"
+elif args.subdirsof:
+   bdb.prefixdir = gmap.fsnameToSearch( args.subdirsof )
+   activefunc = bdb.dataBySubDirs
+   header = "Subdirs"
 
-#res, total = bdb.getDataByFields(ncores, bdb.dataByProjs, cfiles )
-#dpy.displayDataByKey( res, total, basedir, nsbins, "Projs" )
-
-#res, total = bdb.getDataByFields(ncores, bdb.dataBySubDirs, cfiles )
-#dpy.displayDataByKey( res, total, basedir, nsbins, "Subdirs" )
+res, total, basedir = bdb.getDataByFields(ncores, activefunc, cfiles )
+dpy.displayDataByKey( res, total, basedir, nsbins, header )

@@ -13,8 +13,11 @@ def parseNfill( fl ):
    """
    Core function scheduled / map using multiprocessing module
    """
-   global activefunc
-   basedir = ''
+   global activefunc, prefixdir
+   if prefixdir is None:
+      basedir = ''
+   else:
+      basedir = prefixdir
    ref = {}
    with open(fl) as fh:
       for line in fh:
@@ -24,11 +27,16 @@ def parseNfill( fl ):
             atime = int(tmp[3]); proj = int(tmp[4]); fname = tmp[5]; path = tmp[6];
             if atime < mtime:
                atime = mtime
-            if len(basedir) == 0:
-               basedir = path
+            if prefixdir is None:
+               if len(basedir) == 0:
+                  basedir = path
+               else:
+                  basedir = largestMatch( basedir, path )
+               activefunc( ref, size, uid, mtime, atime, proj, fname, path )
             else:
-               basedir = largestMatch( basedir, path )
-            activefunc( ref, size, uid, mtime, atime, proj, fname, path )
+               if path.startswith(prefixdir):
+                  basedir = largestMatch( basedir, path )
+                  activefunc( ref, size, uid, mtime, atime, proj, fname, path )
          except:
             print(fl)
             exit(-1)
@@ -76,11 +84,10 @@ def dataBySubDirs( ref, size, uid, mtime, atime, proj, fname, path ):
    Function for storing rows per subdirs
    """
    global prefixdir
-   if path.startswith(prefixdir):
-      lpref = len(prefixdir)
-      tmp = path[lpref+1:].split('/')
-      fillkey = tmp[0]
-      fillData( ref, size, fillkey, mtime, atime, proj, fname, path )
+   lpref = len(prefixdir)
+   tmp = path[lpref+1:].split('/')
+   fillkey = tmp[0]
+   fillData( ref, size, fillkey, mtime, atime, proj, fname, path )
 
 def conCatDataByKey( resfromtasks ):
    """
