@@ -14,10 +14,10 @@ def parseNfill( fl ):
    Core function scheduled / map using multiprocessing module
    """
    global activefunc, prefixdir
-   if prefixdir is None:
-      basedir = ''
-   else:
+   if len(prefixdir) > 1:
       basedir = prefixdir
+   else:
+      basedir = ''
    ref = {}
    with open(fl) as fh:
       for line in fh:
@@ -27,7 +27,7 @@ def parseNfill( fl ):
             atime = int(tmp[3]); proj = int(tmp[4]); fname = tmp[5]; path = tmp[6];
             if atime < mtime:
                atime = mtime
-            if prefixdir is None:
+            if len(prefixdir) == 1:
                if len(basedir) == 0:
                   basedir = path
                else:
