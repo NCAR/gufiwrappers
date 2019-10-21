@@ -16,7 +16,7 @@ def displayHeaders( nh, keyid, basedir ):
    print("%9s " % "Size(TB)", end=" ")
    print("%5s " % "%-age", end=" ")
    print("%5s " % "Cum-%", end=" ")
-   print("%5s  " % "Count", end=" ")
+   print("%-9s  " % "Count", end=" ")
    for i in range(nh):
       f = 100.0*float(i+1)/nh
       print("%4.1f " % f, end=" ")
@@ -34,6 +34,7 @@ def displayRow( keyid, uid, row, totrow, cumperc, nh ):
    print("%5.1f " % perc, end=" ")
    print("%5.1f " % cumperc, end=" ")
    print("%7.1e " % float(row['count']), end=" " )
+   print("%2s" % "W:", end=" ")
    whist = tm.getDsplyIdx( row['wHist'], nh )
    rhist = tm.getDsplyIdx( row['rHist'], nh )
    for ent in whist:
@@ -46,6 +47,7 @@ def displayRow( keyid, uid, row, totrow, cumperc, nh ):
       keyname = uid
    print("%-s " % keyname)
    print("%33s" % "", end=" ")
+   print("%2s" % "R:", end=" ")
    for ent in rhist:
       print("%4s " % ent, end=" ")
    print( )
