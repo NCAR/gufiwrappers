@@ -18,21 +18,21 @@ def yrMnIdxToTs( idx ):
    mn = (idx - 12*yr)
    return datetime((1970 + yr), (1 + mn), 1).timestamp()
 
-def idxToYrMnStr( idx ):
+def idxToYrMnStr( idx, fmt ):
    """Generates the yymm string from index"""
    from datetime import datetime
    ts = yrMnIdxToTs( idx )
-   return datetime.fromtimestamp(ts).strftime('%y%m')
+   return datetime.fromtimestamp(ts).strftime( fmt )
 
 
-def getDsplyIdx( hist, nh ):
+def getDsplyIdx( hist, size, nh ):
    """ Returns an array of nh yrmn entries """
    frac = 10.**(-6)
    idxlst = []
    totf = 0.0
    for i in range(len(hist)):
-      totf += hist[i]
+      totf += (hist[i] / size)
       while totf > frac:
-         idxlst.append( idxToYrMnStr( i ))
+         idxlst.append( idxToYrMnStr( i, '%y%m' ))
          frac += 1./nh
    return idxlst

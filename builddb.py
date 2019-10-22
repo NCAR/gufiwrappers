@@ -108,17 +108,17 @@ def conCatDataByKey( resfromtasks ):
                tot[attr] += entuid[attr]
          else:
             totres[key] = entuid
-   ct = 0
+#  ct = 0
    totrow = crEntry( )
    for key in totres.keys():
       tot = totres[key]
-      tot['wHist'] /= tot['size']
-      tot['rHist'] /= tot['size']
+#     tot['wHist'] /= tot['size']
+#     tot['rHist'] /= tot['size']
       for attr in tot.keys():
           totrow[attr] += tot[attr]
-      ct += 1
-   totrow['wHist'] /= ct
-   totrow['rHist'] /= ct
+#     ct += 1
+#  totrow['wHist'] /= ct
+#  totrow['rHist'] /= ct
    return totres, totrow, basedir
 
 
