@@ -1,6 +1,8 @@
 import numpy as np
 import timefuncs as tm
 
+fuidpid = []
+
 
 def largestMatch( x, y ):
    minlxy = min(len(x),len(y))
@@ -13,7 +15,7 @@ def parseNfill( fl ):
    """
    Core function scheduled / map using multiprocessing module
    """
-   global activefunc, prefixdir
+   global activefunc, prefixdir, fuidpid
    if len(prefixdir) > 1:
       basedir = prefixdir
    else:
@@ -27,16 +29,17 @@ def parseNfill( fl ):
             atime = int(tmp[3]); proj = int(tmp[4]); fname = tmp[5]; path = tmp[6];
             if atime < mtime:
                atime = mtime
-            if len(prefixdir) == 1:
-               if len(basedir) == 0:
-                  basedir = path
-               else:
-                  basedir = largestMatch( basedir, path )
-               activefunc( ref, size, uid, mtime, atime, proj, fname, path )
-            else:
-               if path.startswith(prefixdir):
-                  basedir = largestMatch( basedir, path )
+            if not bool(fuidpid) or uid in fuidpid or proj in fuidpid:
+               if len(prefixdir) == 1:
+                  if len(basedir) == 0:
+                     basedir = path
+                  else:
+                     basedir = largestMatch( basedir, path )
                   activefunc( ref, size, uid, mtime, atime, proj, fname, path )
+               else:
+                  if path.startswith(prefixdir):
+                     basedir = largestMatch( basedir, path )
+                     activefunc( ref, size, uid, mtime, atime, proj, fname, path )
          except:
             print(fl)
             exit(-1)

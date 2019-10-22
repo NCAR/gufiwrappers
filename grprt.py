@@ -12,6 +12,19 @@ import time
 
 bdb.MAXHBINS = 1024  # Maximum histogram bins
 
+def setFilterByUids( uids ):
+    """
+    sets the filter DB
+    """
+    for uid in uids:
+       bdb.fuidpid.append( gmap.getUid( uid )) 
+
+def setFilterByPids( pids ):
+    """
+    sets the filter DB
+    """
+    for pid in pids:
+       bdb.fuidpid.append( gmap.getPid( pid )) 
 
 defcachepref = os.path.join('/gpfs/fs1/scratch', os.environ['LOGNAME'], 'gufi_cache')
 
@@ -25,9 +38,9 @@ grprprtby.add_argument('--by-projects', dest='byprojects', action='store_true',
 grprprtby.add_argument('--by-subdirs-of=', dest='subdirsof',  metavar='[Parent directory]',
                        help='report by subdirectories of this parent directory')
 
-parser.add_argument('--filter-by-unames=', dest='uids', nargs='+', metavar='[User1,User2,..]',
+parser.add_argument('--filter-by-unames=', dest='fuids', nargs='+', metavar='[User1,User2,..]',
                     help='Report only for User1[,User2]..')
-parser.add_argument('--filter-by-projects=', dest='pids', nargs='+', metavar='[Project1,Project2,..]',
+parser.add_argument('--filter-by-projects=', dest='fpids', nargs='+', metavar='[Project1,Project2,..]',
                     help='Report only for Project1[,Project2]..')
 
 parser.add_argument('-n', '--ncores', dest='ncores', default=1, metavar='#-of-cores or processes',
@@ -40,6 +53,12 @@ args = parser.parse_args()
 cfiles = args.cache_files
 ncores = int(args.ncores)
 nsbins = int(args.nsbins)
+
+if not args.fuids == None:
+    setFilterByUids( args.fuids[0].split(',') )
+
+if not args.fpids == None:
+    setFilterByPids( args.fpids[0].split(',') )
 
 if args.byprojects:
    bdb.prefixdir = '/'

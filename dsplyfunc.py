@@ -65,4 +65,8 @@ def displayDataByKey( results, totrow, basedir, nh, keyid ):
       cumperc = displayRow( keyid, uid, row, totrow, cumperc, nh )
 
 
+def dumpHistByKey( ):
+   """
+   Dump the histogram data
+   """
 
