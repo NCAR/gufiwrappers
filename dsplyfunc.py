@@ -60,6 +60,7 @@ def displayDataByKey( results, totrow, basedir, nh, keyid ):
    uids = sorted(results.items(), key=lambda kv: kv[1]['size'], reverse=True)
    cumperc = 0.0
    displayRow( keyid, "Total", totrow, totrow, cumperc, nh )
+   prtOneCharLine( "-", (43+nh*6) )
    for uid, row in uids:
       cumperc = displayRow( keyid, uid, row, totrow, cumperc, nh )
 
