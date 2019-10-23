@@ -43,9 +43,9 @@ parser.add_argument('--filter-by-unames=', dest='fuids', nargs='+', metavar='[Us
 parser.add_argument('--filter-by-projects=', dest='fpids', nargs='+', metavar='[Project1,Project2,..]',
                     help='Report only for Project1[,Project2]..')
 
-parser.add_argument('-n', '--ncores', dest='ncores', default=1, metavar='#-of-cores or processes',
+parser.add_argument('-n', '--ncores', dest='ncores', default=1, metavar='number-of-cores or processes',
                       help='Number of cores / threads to run')
-parser.add_argument('--nsbins', dest='nsbins', default=8, metavar='#-of-histogram bins [8]',
+parser.add_argument('--nsbins', dest='nsbins', default=8, metavar='number-of-histogram bins [8]',
                        help='Number of write / read stat histogram bins')
 parser.add_argument('--hist', dest='hist', nargs='+', metavar='Histogram output file',
                        help='CSV file name for histgram data')
