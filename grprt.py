@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import sys
 import argparse
 import numpy as np
 import builddb as bdb
@@ -9,6 +10,11 @@ import dsplyfunc as dpy
 from multiprocessing import Pool
 from datetime import datetime
 import time
+
+errorfile = 'error_' + str(os.getpid()) + '.out'
+sys.stderr = open(errorfile, 'w')
+print("The command line was: ",file=sys.stderr)
+print(sys.argv,file=sys.stderr)
 
 bdb.MAXHBINS = 1024  # Maximum histogram bins
 
@@ -80,3 +86,5 @@ dpy.displayDataByKey( res, total, basedir, nsbins, header )
 
 if not args.hist == None:
    dpy.dumpHistByKey( res, header, args.hist[0] )
+
+sys.stderr.close()

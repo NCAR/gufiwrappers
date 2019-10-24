@@ -15,6 +15,7 @@ def parseNfill( fl ):
    """
    Core function scheduled / map using multiprocessing module
    """
+   import sys
    global activefunc, prefixdir, fuidpid
    if len(prefixdir) > 1:
       basedir = prefixdir
@@ -22,6 +23,7 @@ def parseNfill( fl ):
       basedir = ''
    ref = {}
    with open(fl) as fh:
+      l = 0
       for line in fh:
          tmp = line.split('\x1E')
          try:
@@ -46,8 +48,8 @@ def parseNfill( fl ):
                      basedir = largestMatch( basedir, path )
                      activefunc( ref, size, uid, mtime, atime, proj, fname, path )
          except:
-            print(fl)
-            exit(-1)
+            print("Discarded line:",l,"from: ",fl,file=sys.stderr)
+         l += 1
    return ref, basedir
 
 
