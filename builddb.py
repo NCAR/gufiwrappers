@@ -104,26 +104,21 @@ def conCatDataByKey( resfromtasks ):
    """
    totres, basedir = resfromtasks[0]
    for ent, tmpbasedir in resfromtasks[1:]:
-      basedir = largestMatch( basedir, tmpbasedir )
-      for key in ent.keys():
-         entuid = ent[key]
-         if key in totres:
-            tot = totres[key]
-            for attr in tot.keys():
-               tot[attr] += entuid[attr]
-         else:
-            totres[key] = entuid
-#  ct = 0
+      if len(ent) > 0:
+         basedir = largestMatch( basedir, tmpbasedir )
+         for key in ent.keys():
+            entuid = ent[key]
+            if key in totres:
+               tot = totres[key]
+               for attr in tot.keys():
+                  tot[attr] += entuid[attr]
+            else:
+               totres[key] = entuid
    totrow = crEntry( )
    for key in totres.keys():
       tot = totres[key]
-#     tot['wHist'] /= tot['size']
-#     tot['rHist'] /= tot['size']
       for attr in tot.keys():
           totrow[attr] += tot[attr]
-#     ct += 1
-#  totrow['wHist'] /= ct
-#  totrow['rHist'] /= ct
    return totres, totrow, basedir
 
 
