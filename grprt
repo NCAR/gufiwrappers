@@ -7,7 +7,7 @@ source /etc/profile.d/modules.sh 2>/dev/null
 ml purge
 ml python
 ncar_pylib > /dev/null
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
+export LC_ALL="en_US.UTF-8"
+export LANG="en_US.UTF-8"
 
 $EXEDIR/grprt.py $*

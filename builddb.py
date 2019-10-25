@@ -22,7 +22,7 @@ def parseNfill( fl ):
    else:
       basedir = ''
    ref = {}
-   with open(fl) as fh:
+   with open(fl, encoding = "ISO-8859-1") as fh:
       l = 0
       for line in fh:
          tmp = line.split('\x1E')
@@ -48,7 +48,7 @@ def parseNfill( fl ):
                      basedir = largestMatch( basedir, path )
                      activefunc( ref, size, uid, mtime, atime, proj, fname, path )
          except:
-            print("Discarded line:",l,"from: ",fl,file=sys.stderr)
+            print("Discarded line:",l,"from: ",fl,"line: ",tmp, file=sys.stderr)
          l += 1
    return ref, basedir
 
