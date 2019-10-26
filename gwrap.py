@@ -3,42 +3,7 @@
 import os
 import argparse
 import gmapfuncs as gmap
-
-def getUlist( usrstr, vartype ):
-    """
-    Parsing unames argument returns a list of users to filter
-    """
-    usrs = []
-    if usrstr == None:
-       return usrs
-    for u in usrstr[0].split(','):
-       if vartype == 'users':
-          uid = gmap.getUid( u )
-       else:
-          uid = gmap.getPid( u )
-       usrs.append(uid)
-    return usrs
-
-def procPeriod( perstr ):
-    from datetime import datetime
-    if perstr == None:
-       return []
-    lst = perstr.split('-')
-    mn = 1; day = 1;
-    lstn = []
-    for e in lst:
-       if len(e) > 0:
-          yr = int(e[:4])
-          if len(e) > 4:
-             mn = int(e[4:6])
-             if len(e) > 6:
-                day = int(e[6:8])
-          en = datetime(yr, mn, day).timestamp()
-          lstn.append(en)
-    return lstn
-
-
-
+import timefuncs as tm
 
 
 gufitmp = os.path.join('/gpfs/fs1/scratch', os.environ['LOGNAME'], 'gufi_tmp')
@@ -81,11 +46,12 @@ args = parser.parse_args()
 
 
 cachedir = args.cdir
-users = getUlist( args.fuids, 'users' )
-projects = getUlist( args.projs, 'projects' )
-writep = procPeriod( args.writep )
-readp = procPeriod( args.readp )
+users = gmap.getUlist( args.fuids, 'users' )
+projects = gmap.getUlist( args.projs, 'projects' )
+writep = tm.procPeriod( args.writep )
+readp = tm.procPeriod( args.readp )
 print(cachedir)
 print(users)
 print(projects)
 print(writep)
+print(readp)

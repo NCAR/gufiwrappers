@@ -139,3 +139,19 @@ def searchToFsname( sname ):
       return sname[12:]
 
 
+def getUlist( usrstr, vartype ):
+    """
+    Parsing unames argument returns a list of users to filter
+    """
+    usrs = []
+    if usrstr == None:
+       return usrs
+    for u in usrstr[0].split(','):
+       if vartype == 'users':
+          uid = getUid( u )
+       else:
+          uid = getPid( u )
+       usrs.append(uid)
+    return usrs
+
+

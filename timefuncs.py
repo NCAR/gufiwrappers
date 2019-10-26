@@ -36,3 +36,23 @@ def getDsplyIdx( hist, size, nh ):
          idxlst.append( idxToYrMnStr( i, '%y%m' ))
          frac += 1./nh
    return idxlst
+
+
+def procPeriod( perstr ):
+    from datetime import datetime
+    if perstr == None:
+       return []
+    lst = perstr.split('-')
+    mn = 1; day = 1;
+    lstn = []
+    for e in lst:
+       if len(e) > 0:
+          yr = int(e[:4])
+          if len(e) > 4:
+             mn = int(e[4:6])
+             if len(e) > 6:
+                day = int(e[6:8])
+          en = datetime(yr, mn, day).timestamp()
+          lstn.append(en)
+    return lstn
+
