@@ -22,7 +22,7 @@ grprprtby.add_argument('--list-mode=', dest='lmode',choices=['name','size','owne
                        help='Generate list of files with one or more of these attributes in order\
                        as specified in command line argument in space separated format')
 
-parser.add_argument('--unames=', dest='fuids', nargs='+', metavar=('User1','User2'),
+parser.add_argument('--owners=', dest='fuids', nargs='+', metavar=('User1','User2'),
                     help='for content owned only by users User1, User2..')
 parser.add_argument('--projects=', dest='projs', nargs='+', metavar=('Proj1','Proj2'),
                     help='for content assocaited with projects Proj1, Proj2.., applicable\
