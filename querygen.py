@@ -1,8 +1,17 @@
 def usrProjPart( entity, ups ):
+    """
+    Given list of uids or pids (ups) and entity string ('uid' or 'xattrs')
+    returns correponding query string for GUFI
+    """
     tmp = list(map(lambda x: entity + ' = ' + str(x), ups))
     return '(' + " or ".join(tmp) + ')'
 
 def periodToQry( entity, per ):
+    """
+    Given entity ('mtime', 'ctime' or 'atime') and period (list of
+    1 or 2 integers, 2nd one less than the 1st in case of 2) returns
+    query string on entity.
+    """
     ge  = '>='; le  = '<=';
     wpq = []
     if len(per) >= 1:
