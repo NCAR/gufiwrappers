@@ -14,15 +14,13 @@ parser.add_argument('--cache-dir=', '-c', dest='cdir', default=defcachepref,
                     metavar='path-name',
                     help='Absolute path name to store the GUFI query output\
                     default: ' + defcachepref)
-grprprtby = parser.add_mutually_exclusive_group(required=False)
-grprprtby.add_argument('--cache-mode', dest='cmode', action='store_true',
-                       help='Generate cache for grprt')
-grprprtby.add_argument('--list-mode=', dest='lmode',choices=['name','size','owner','project',\
-                       'mtime','atime'], 
-                       help='Generate list of files with one or more of these attributes in order\
-                       as specified in command line argument in space separated format')
+parser.add_argument('--list-mode=', dest='lmode', nargs=1, required=False, 
+                       metavar='',
+                       help='Generate list of files with one or more of the attributes\
+                       from name, path, size, owner, project, mtime, atime in order as\
+                       specified delimited by comma(,)')
 
-parser.add_argument('--owners=', dest='fuids', nargs='+', metavar=('User1','User2'),
+parser.add_argument('--owners=', dest='fuids', nargs='+', metavar='',
                     help='for content owned only by users User1, User2..')
 parser.add_argument('--projects=', dest='projs', nargs='+', metavar=('Proj1','Proj2'),
                     help='for content assocaited with projects Proj1, Proj2.., applicable\
@@ -45,6 +43,7 @@ parser.add_argument(dest='Absolute path to query', help='Absolute path of the fi
 args = parser.parse_args()
 
 
+lmode = args.lmode
 cachedir = args.cdir
 users = gmap.getUlist( args.fuids, 'users' )
 projects = gmap.getUlist( args.projs, 'projects' )
@@ -55,3 +54,4 @@ print(users)
 print(projects)
 print(writep)
 print(readp)
+print('list mode:',lmode)
