@@ -18,12 +18,13 @@ parser.add_argument('--list-mode=', dest='lmode', nargs=1, required=False,
                        metavar='',
                        help='Generate list of files with one or more of the attributes\
                        from name, path, size, owner, project, mtime, atime in order as\
-                       specified delimited by comma(,)')
+                       specified delimited by comma(,). This mode toggles with the default\
+                       cache mode output for post-processing using grprt.')
 
 parser.add_argument('--owners=', dest='fuids', nargs='+', metavar='',
                     help='for content owned only by users User1, User2..')
-parser.add_argument('--projects=', dest='projs', nargs='+', metavar=('Proj1','Proj2'),
-                    help='for content assocaited with projects Proj1, Proj2.., applicable\
+parser.add_argument('--projects=', dest='projs', nargs='+', metavar='',
+                    help='for content associated with projects Proj1, Proj2.., applicable\
                           only in HPSS')
 parser.add_argument('--write-period=', dest='writep', metavar='YYYY[MM[DD]]-YYYY[MM[DD]]',
                     help='for content written during the time window YYYY[MM[DD]]-YYYY[MM[DD]] \

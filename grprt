@@ -2,6 +2,7 @@
 
 EXEDIR=$(dirname ${BASH_SOURCE[0]})
 echo $EXEDIR
+me=$0
 
 source /etc/profile.d/modules.sh 2>/dev/null
 ml purge
@@ -10,4 +11,4 @@ ncar_pylib > /dev/null
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US.UTF-8"
 
-$EXEDIR/grprt.py $*
+$EXEDIR/$0.py $*
