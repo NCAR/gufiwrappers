@@ -39,6 +39,19 @@ def getDsplyIdx( hist, size, nh ):
 
 
 def procPeriod( perstr ):
+    """
+    Parse period string to return a 2 element list of
+    Unix times. Full format is: YYYY[MM[DD]]-[YYYY[MM[DD]]]
+    Note:
+      1. If day of the month is not specified then it is
+         assumed to be 1.
+      2. If month is not specified, then both month and day 
+         of the month is assumed to be 1.
+    Few abbreviated conventions incorporated:
+      1. -YYYY[MM[DD]]  => times newer and equal to YYYY[MM[DD]]
+      2.  YYYY[MM[DD]]- => times older and equal to YYYY[MM[DD]]
+      3.  YYYY[MM[DD]]  => YYYY[MM[DD]]-
+    """
     from datetime import datetime
     if perstr == None:
        return []
