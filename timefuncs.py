@@ -48,9 +48,9 @@ def procPeriod( perstr ):
       2. If month is not specified, then both month and day 
          of the month is assumed to be 1.
     Few abbreviated conventions incorporated:
-      1. -YYYY[MM[DD]]  => times newer and equal to YYYY[MM[DD]]
-      2.  YYYY[MM[DD]]- => times older and equal to YYYY[MM[DD]]
-      3.  YYYY[MM[DD]]  => YYYY[MM[DD]]-
+      1.  YYYY[MM[DD]]- => times newer or equal to YYYY[MM[DD]]
+      2. -YYYY[MM[DD]]  => times older or equal to YYYY[MM[DD]]
+      3.  YYYY[MM[DD]]  => -YYYY[MM[DD]]
     """
     from datetime import datetime
     if perstr == None:
@@ -65,7 +65,12 @@ def procPeriod( perstr ):
              mn = int(e[4:6])
              if len(e) > 6:
                 day = int(e[6:8])
-          en = datetime(yr, mn, day).timestamp()
+          en = int(datetime(yr, mn, day).timestamp())
           lstn.append(en)
+    if len(lstn) == 1:
+       if not perstr.endswith('-'):
+          lstn.insert(0,-1)
+       else:
+          lstn.append(-1)
     return lstn
 

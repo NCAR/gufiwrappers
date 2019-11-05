@@ -14,10 +14,10 @@ def periodToQry( entity, per ):
     """
     ge  = '>='; le  = '<=';
     wpq = []
-    if len(per) >= 1:
-       wpq.append(entity + ' ' + le + ' ' + str(per[0]))
-    if len(per) == 2:
-       wpq.append(entity + ' ' + ge + ' ' + str(per[1]))
+    if not per[0] == -1:
+       wpq.append(entity + ' ' + ge + ' ' + str(per[0]))
+    if not per[1] == -1:
+       wpq.append(entity + ' ' + le + ' ' + str(per[1]))
     return '(' + " and ".join(wpq) + ')'
 
 def getQryStr( uids, pids, wp, wpname, rp, fields ):
@@ -34,7 +34,7 @@ def getQryStr( uids, pids, wp, wpname, rp, fields ):
     """ 
     sqt = '\''
     beg = 'SELECT ' + ','.join(fields) + ' FROM entries '
-    if bool(usrs) or bool(projs) or bool(wp) or bool(rp):
+    if bool(uids) or bool(pids) or bool(wp) or bool(rp):
        totcons = []
        if bool(uids):
           totcons.append( usrProjPart( 'uid', uids ) )

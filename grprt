@@ -6,7 +6,7 @@ me=$0
 
 source /etc/profile.d/modules.sh 2>/dev/null
 ml purge
-ml python
+ml ncarenv python
 ncar_pylib > /dev/null
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US.UTF-8"

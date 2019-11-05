@@ -4,6 +4,7 @@ import os
 import argparse
 import gmapfuncs as gmap
 import timefuncs as tm
+import querygen as qg
 
 
 gufitmp = os.path.join('/gpfs/fs1/scratch', os.environ['LOGNAME'], 'gufi_tmp')
@@ -46,13 +47,17 @@ args = parser.parse_args()
 
 lmode = args.lmode
 cachedir = args.cdir
-users = gmap.getUlist( args.fuids, 'users' )
-projects = gmap.getUlist( args.projs, 'projects' )
-writep = tm.procPeriod( args.writep )
-readp = tm.procPeriod( args.readp )
+uids = gmap.getUlist( args.fuids, 'users' )
+pids = gmap.getUlist( args.projs, 'projects' )
+wp = tm.procPeriod( args.writep )
+wpname = 'mtime'
+rp = tm.procPeriod( args.readp )
+fields = ['size','uid','name','path()']
 print('cachedir: ',cachedir)
-print('users: ',users)
-print('projects: ',projects)
-print('write-period: ',writep)
-print('read-period: ',readp)
+print('users: ',uids)
+print('projects: ',pids)
+print('write-period: ',wp)
+print('read-period: ',rp)
 print('list mode:',lmode)
+
+print(qg.getQryStr( uids, pids, wp, wpname, rp, fields ))
