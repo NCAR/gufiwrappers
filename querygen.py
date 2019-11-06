@@ -1,3 +1,5 @@
+import os
+
 def usrProjPart( entity, ups ):
     """
     Given list of uids or pids (ups) and entity string ('uid' or 'xattrs')
@@ -49,4 +51,52 @@ def getQryStr( uids, pids, wp, wpname, rp, fields ):
     else: 
        return sqt + beg + ';' + sqt
 
+def procFieldsNDelim( inputfields, wpname, delim ):
+    """
+    Translates fields to GUFI-speak, 
+    sets defaults for grprt otherwise
+    """
+    if inputfields is None:
+       if wpname == 'ctime':
+          fields = ['size','uid',wpname,'atime','xattrs','name','path()']
+       else:
+          fields = ['size','uid',wpname,'atime','name','path()']
+       delim = 'x'
+    else:
+       fields = []
+       for elem in inputfields.split(','):
+           if elem == 'filename':
+              fields.extend(['path()','name'])
+           else:
+              fields.append(elem)
+    return fields, delim
+        
+def getOutputFilename( cachedir, gufitree ):
+    """
+    Returns full path of output filenames and creates the
+    destination directory if not already present
+    """
+    wdir = os.path.join(cachedir, os.path.dirname( gufitree[8:] )) 
+    basn = os.path.basename( gufitree )
+    filen = os.path.join( wdir, basn ) + '.dat'
+    if not os.path.exists(wdir):
+       os.system('mkdir -p ' + wdir)
+    return filen
 
+def getGufiQryCmd( uids, pids, wp, wpname, rp, inputfields, inputdelim, 
+                   cachedir, nthreads, gufitree ):
+    """
+    Given all the arguments above returns the gufi command to be
+    executed in GUFI server.
+    """
+    fields, delim = procFieldsNDelim( inputfields, wpname, inputdelim )
+    cmd = 'gufi_query'
+    opts = '-P -p -e 1'
+    delimopt = '-d ' + delim
+    nts = '-n ' + str(nthreads)
+    filen = getOutputFilename( cachedir, gufitree )
+    filopt = '-o ' + filen
+    qry = getQryStr( uids, pids, wp, wpname, rp, fields )
+    qryopt = '-E ' + qry
+    fullcmd = ' '.join([cmd, opts, delimopt, nts, filopt, qryopt, gufitree])
+    return fullcmd

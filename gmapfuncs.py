@@ -3,10 +3,10 @@
 #    projid          <=> project name (HPSS only)
 #    filesystem name <=> search prefix name
 
-uid2uname = {}   # dict   uid: uname
-uname2uid = {}   # dict uname: uid
-pid2pname = {}   # dict   pid: project name
-pname2pid = {}   # dict pname: pid
+uid2uname = {}       # dict    uid: uname
+uname2uid = {}       # dict  uname: uid
+pid2pname = {}       # dict    pid: project name
+pname2pid = {}       # dict  pname: pid
 
 
 def getLatestHpssFile( fname ):
@@ -121,8 +121,13 @@ def getPid( pname ):
 
 
 def fsnameToSearch( fsname ):
-   if fsname.startswith('/gpfs/csfs1'):
+   """
+   Maps filesystem/HPSS tree name to GUFI-tree name
+   """
+   if   fsname.startswith('/gpfs/csfs1'): 
       return '/search/campaign' + fsname[11:]
+   elif fsname.startswith('/glade/campaign'):
+      return '/search/campaign' + fsname[15:]
    elif fsname.startswith('/gpfs/fs1/p'):
       return '/search/p' + fsname[11:]
    elif fsname.startswith('/glade/p'):
@@ -131,6 +136,9 @@ def fsnameToSearch( fsname ):
       return '/search/hpss' + fsname
 
 def searchToFsname( sname ):
+   """
+   Maps filesystem/HPSS tree name to GUFI-tree name
+   """
    if sname.startswith('/search/campaign'):
       return '/gpfs/csfs1' + sname[16:]
    elif sname.startswith('/search/p'):
