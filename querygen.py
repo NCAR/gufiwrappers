@@ -64,7 +64,7 @@ def procFieldsNDelim( inputfields, wpname, delim ):
        delim = 'x'
     else:
        fields = []
-       for elem in inputfields.split(','):
+       for elem in inputfields[0].split(','):
            if elem == 'filename':
               fields.extend(['path()','name'])
            else:
@@ -81,6 +81,7 @@ def getOutputFilename( cachedir, gufitree ):
     filen = os.path.join( wdir, basn ) + '.dat'
     if not os.path.exists(wdir):
        os.system('mkdir -p ' + wdir)
+    os.system('rm -f ' + filen + '.*')
     return filen
 
 def getGufiQryCmd( uids, pids, wp, wpname, rp, inputfields, inputdelim, 

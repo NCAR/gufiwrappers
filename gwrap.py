@@ -7,8 +7,44 @@ import timefuncs as tm
 import querygen as qg
 
 
+def getScriptFilename( gufitmp ):
+    """
+    returns data-time attached script-filename
+    """
+    import time
+    from datetime import datetime
+    ts = datetime.fromtimestamp(time.time()).strftime('%Y%m%d_%H%M%S')
+    fn = 'qry_' + ts + '.sh'
+    scriptdir = os.path.join(gufitmp, 'scripts')
+    if not os.path.exists(scriptdir):
+       os.system('mkdir -p ' + scriptdir)
+    fullfn = os.path.join(scriptdir, fn )
+    return fullfn, scriptdir
+
+def writeGufiScript( gufitmp, guficmd ):
+    """
+    Writes gufi script file in scriptdir
+    """
+    scrfile, scriptdir = getScriptFilename( gufitmp )
+    with open(scrfile, 'w') as fh:
+       fh.write('%s\n\n' % '#!/bin/bash')
+       fh.write('%s\n' % guficmd)
+    fh.close()
+    os.system('chmod +x ' + scrfile)
+    return scrfile, scriptdir
+
+
+def executeGufiScriptOnServer( scriptfile ):
+    """ 
+    Execute script from Casper to GUFI server
+    """ 
+    sshcmd = 'ssh -oHostBasedAuthentication=yes squall1.ucar.edu'
+    fullcmd = ' '.join([sshcmd, scriptfile])
+    os.system(fullcmd)
+    
+
 gufitmp = os.path.join('/gpfs/fs1/scratch', os.environ['LOGNAME'], 'gufi_tmp')
-defcachepref = os.path.join(gufitmp, 'cache')
+defcachepref = os.path.join(gufitmp, 'raw')
 
 parser = argparse.ArgumentParser(description='Generate Cache DB for a given tree')
 parser.add_argument('--cache-dir=', '-c', dest='cdir', default=defcachepref, 
@@ -63,6 +99,8 @@ print('write-period: ',wp)
 print('read-period: ',rp)
 print('list mode:',lmode)
 inputdelim = ','
-fullcmd = qg.getGufiQryCmd( uids, pids, wp, wpname, rp, lmode, inputdelim,
+guficmd = qg.getGufiQryCmd( uids, pids, wp, wpname, rp, lmode, inputdelim,
                    cachedir, nthreads, gufitree )
-print(fullcmd)
+scriptfile, scriptdir = writeGufiScript( gufitmp, guficmd )
+executeGufiScriptOnServer( scriptfile )
+print(guficmd)
