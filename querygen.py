@@ -71,7 +71,7 @@ def procFieldsNDelim( inputfields, wpname, delim ):
               fields.append(elem)
     return fields, delim
         
-def getOutputFilename( cachedir, gufitree ):
+def getOutputFilename( cachedir, gufitree, remove=True ):
     """
     Returns full path of output filenames and creates the
     destination directory if not already present
@@ -81,7 +81,8 @@ def getOutputFilename( cachedir, gufitree ):
     filen = os.path.join( wdir, basn ) + '.dat'
     if not os.path.exists(wdir):
        os.system('mkdir -p ' + wdir)
-    os.system('rm -f ' + filen + '.*')
+    if remove:
+       os.system('rm -f ' + filen + '.*')
     return filen
 
 def getGufiQryCmd( uids, pids, wp, wpname, rp, inputfields, inputdelim, 

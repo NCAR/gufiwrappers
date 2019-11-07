@@ -48,13 +48,12 @@ def parseCmdLine( ):
     Mainly the argparser stuff dumped in a single function
     """
     gufitmp = os.path.join('/gpfs/fs1/scratch', os.environ['LOGNAME'], 'gufi_tmp')
-    defcachepref = os.path.join(gufitmp, 'raw')
     parser = argparse.ArgumentParser(description='Generate Cache DB or list for a given filesystem tree \
              querying GUFI DB')
-    parser.add_argument('--cache-dir=', '-c', dest='cdir', default=defcachepref, 
+    parser.add_argument('--gufitmp-dir=', dest='gufitmp', default=gufitmp, 
                     metavar='path-name',
                     help='Absolute path name to store the GUFI query output\
-                    default: ' + defcachepref)
+                    default: ' + gufitmp)
     parser.add_argument('--list-mode=', dest='lmode', nargs=1, required=False, 
                        metavar='filename[,size[,owner[,project[,mtime[,atime]]]]]',
                        help='Generate list of files with one or more of the attributes\
@@ -82,8 +81,9 @@ def parseCmdLine( ):
     parser.add_argument(dest='treename', help='Absolute path of the filesystem tree located in\
                           either in glade, campaign or HPSS')
     args = parser.parse_args()
+    gufitmp = args.gufitmp
     lmode = args.lmode
-    cachedir = args.cdir
+    cachedir = os.path.join(gufitmp, 'raw')
     uids = gmap.getUlist( args.fuids, 'users' )
     pids = gmap.getUlist( args.projs, 'projects' )
     wp = tm.procPeriod( args.writep )
