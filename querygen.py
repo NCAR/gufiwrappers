@@ -51,26 +51,16 @@ def getQryStr( uids, pids, wp, wpname, rp, fields ):
     else: 
        return sqt + beg + ';' + sqt
 
-def procFieldsNDelim( inputfields, wpname, delim ):
+def setFields(  wpname ):
     """
     Translates fields to GUFI-speak, 
     sets defaults for grprt otherwise
     """
-    if inputfields is None:
-       if wpname == 'ctime':
-          fields = ['size','uid',wpname,'atime','xattrs','name','path()']
-       else:
-          fields = ['size','uid',wpname,'atime','name','path()']
-       delim = 'x'
+    if wpname == 'ctime':
+       return ['size','uid',wpname,'atime','xattrs','name','path()']
     else:
-       fields = []
-       for elem in inputfields[0].split(','):
-           if elem == 'filename':
-              fields.extend(['path()','name'])
-           else:
-              fields.append(elem)
-    return fields, delim
-        
+       return ['size','uid',wpname,'atime','name','path()']
+
 def getOutputFilename( cachedir, gufitree, remove=True ):
     """
     Returns full path of output filenames and creates the
@@ -85,16 +75,15 @@ def getOutputFilename( cachedir, gufitree, remove=True ):
        os.system('rm -f ' + filen + '.*')
     return filen
 
-def getGufiQryCmd( uids, pids, wp, wpname, rp, inputfields, inputdelim, 
-                   cachedir, nthreads, gufitree ):
+def getGufiQryCmd( uids, pids, wp, wpname, rp, cachedir, nthreads, gufitree ):
     """
     Given all the arguments above returns the gufi command to be
     executed in GUFI server.
     """
-    fields, delim = procFieldsNDelim( inputfields, wpname, inputdelim )
+    fields = setFields( wpname )
     cmd = 'gufi_query'
     opts = '-P -p -e 1'
-    delimopt = '-d ' + delim
+    delimopt = '-d x'
     nts = '-n ' + str(nthreads)
     filen = getOutputFilename( cachedir, gufitree )
     filopt = '-o ' + filen

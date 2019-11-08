@@ -109,8 +109,7 @@ def parseCmdLine( ):
 
 
 verbosity, uids, pids, wp, wpname, rp, lmode, inputdelim, gufitmp, cachedir, nthreads, gufitree = parseCmdLine( )
-guficmd = qg.getGufiQryCmd( uids, pids, wp, wpname, rp, lmode, inputdelim,
-                   cachedir, nthreads, gufitree )
+guficmd = qg.getGufiQryCmd( uids, pids, wp, wpname, rp, cachedir, nthreads, gufitree )
 scriptfile, scriptdir = writeGufiScript( gufitmp, guficmd )
 if verbosity:
    print(guficmd)
