@@ -11,7 +11,7 @@ def displayHeaders( nh, keyid, basedir ):
    Given display key prints the headers
    """
    prtOneCharLine( "=", (43+nh*6) )
-   print(" Base directory for this report: %s" % gm.searchToFsname(basedir))
+   print(" Base directory for this report: %s" % gm.searchToFsName(basedir))
    print("%34s %40s" % ("","% (Write / Read) stats over yymm"))
    print("%9s " % "Size(TB)", end=" ")
    print("%5s " % "%-age", end=" ")

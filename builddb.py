@@ -6,6 +6,8 @@ fuidpid = []
 
 def largestMatch( x, y ):
    minlxy = min(len(x),len(y))
+   if minlxy == 0:
+      return y
    for i in range(minlxy):
       if x[i] != y[i]:
          return y[:i]

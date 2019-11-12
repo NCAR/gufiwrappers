@@ -126,7 +126,10 @@ def parseCmdLine( ):
                           either in glade, campaign or HPSS')
     args = parser.parse_args()
     gufitmp = args.gufitmp
-    fields = args.listd[0].split(',')
+    try:
+       fields = args.listd[0].split(',')
+    except:
+       fields = None
     cachedir = os.path.join(gufitmp, 'raw')
     uids = gmap.getUlist( args.fuids, 'users' )
     pids = gmap.getUlist( args.projs, 'projects' )
