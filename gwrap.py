@@ -7,31 +7,14 @@ import glob
 import gmapfuncs as gmap
 import timefuncs as tm
 import querygen as qg
+import outputlocs as ol
 
-
-def getProcFilename( gufitmp, ftype ):
-    """
-    returns data-time attached script-filename
-    """
-    import time
-    from datetime import datetime
-    ts = datetime.fromtimestamp(time.time()).strftime('%Y%m%d_%H%M%S')
-    if ftype == 'script':
-       fn = ftype[:3] + '_' + ts + '.sh'
-       wdir = os.path.join(gufitmp, 'scripts')
-    else:
-       fn = ftype[:3] + '_' + ts + '.dat'
-       wdir = os.path.join(gufitmp, 'reports')
-    if not os.path.exists(wdir):
-       os.system('mkdir -p ' + wdir)
-    fullfn = os.path.join(wdir, fn )
-    return fullfn, wdir
 
 def writeGufiScript( gufitmp, guficmd ):
     """
     Writes gufi script file in scriptdir
     """
-    scrfile, scriptdir = getProcFilename( gufitmp, 'script' )
+    scrfile, scriptdir = ol.getProcFilename( gufitmp, 'script' )
     with open(scrfile, 'w') as fh:
        fh.write('%s\n\n' % '#!/bin/bash')
        fh.write('%s\n' % guficmd)
@@ -40,7 +23,7 @@ def writeGufiScript( gufitmp, guficmd ):
     return scrfile, scriptdir
 
 def conCatReport( cfiles, gufitmp, inputfields ):
-    repfile, repdir = getProcFilename( gufitmp, 'report' )
+    repfile, repdir = ol.getProcFilename( gufitmp, 'report' )
     with open(repfile, 'w') as wfh:
        for fl in cfiles:
           with open(fl, encoding = "ISO-8859-1") as fh:

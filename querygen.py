@@ -67,7 +67,7 @@ def getOutputFilename( cachedir, gufitree, remove=True ):
     destination directory if not already present
     """
     wdir = os.path.join(cachedir, os.path.dirname( gufitree[8:] )) 
-    basn = os.path.basename( gufitree )
+    basn = '__.' + os.path.basename( gufitree )
     filen = os.path.join( wdir, basn ) + '.dat'
     if not os.path.exists(wdir):
        os.system('mkdir -p ' + wdir)

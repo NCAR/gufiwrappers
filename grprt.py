@@ -9,14 +9,10 @@ import builddb as bdb
 import gmapfuncs as gmap
 import querygen as qg
 import dsplyfunc as dpy
+import outputlocs as ol
 from multiprocessing import Pool
 from datetime import datetime
 import time
-
-errorfile = 'error_' + str(os.getpid()) + '.out'
-sys.stderr = open(errorfile, 'w')
-print("The command line was: ",file=sys.stderr)
-print(sys.argv,file=sys.stderr)
 
 bdb.MAXHBINS = 1024  # Maximum histogram bins
 
@@ -72,31 +68,40 @@ def parseCmdLine( ):
            args.fpids, cfiles, args.ncores, args.nsbins, args.hist 
 
 
-gufitmp, byusers, byprojects, subdirsof, fuids, fpids, cfiles, ncores, nsbins, hist = parseCmdLine( )
+if __name__ == "__main__":
+    gufitmp, byusers, byprojects, subdirsof, fuids, fpids, cfiles, ncores, nsbins, hist = parseCmdLine( )
 
-if not fuids == None:
-    setFilterByUids( fuids[0].split(',') )
+    errorfile, wdir = ol.getProcFilename( gufitmp, "log" )
+    sys.stderr = open(errorfile, 'w')
+    print("The command line was: ",file=sys.stderr)
+    print(sys.argv,file=sys.stderr)
+    reportfile, wdir = ol.getProcFilename( gufitmp, "report" )
+    repfh = open(reportfile, 'w')
 
-if not fpids == None:
-    setFilterByPids( fpids[0].split(',') )
+    if not fuids == None:
+        setFilterByUids( fuids[0].split(',') )
 
-if byprojects:
-   bdb.prefixdir = '/'
-   activefunc = bdb.dataByProjs
-   header = "Projs"
-elif subdirsof:
-   bdb.prefixdir = gmap.fsnameToSearch( subdirsof )
-   activefunc = bdb.dataBySubDirs
-   header = "Subdirs"
-else:
-   bdb.prefixdir = '/'
-   activefunc = bdb.dataByUids
-   header = "Uname/Uids"
+    if not fpids == None:
+        setFilterByPids( fpids[0].split(',') )
 
-res, total, basedir = bdb.getDataByFields(ncores, activefunc, cfiles )
-dpy.displayDataByKey( res, total, basedir, nsbins, header )
+    if byprojects:
+       bdb.prefixdir = '/'
+       activefunc = bdb.dataByProjs
+       header = "Projs"
+    elif subdirsof:
+       bdb.prefixdir = gmap.fsnameToSearch( subdirsof )
+       activefunc = bdb.dataBySubDirs
+       header = "Subdirs"
+    else:
+       bdb.prefixdir = '/'
+       activefunc = bdb.dataByUids
+       header = "Uname/Uids"
 
-if not hist == None:
-   dpy.dumpHistByKey( res, header, hist[0] )
+    res, total, basedir = bdb.getDataByFields(ncores, activefunc, cfiles )
+    dpy.displayDataByKey( res, total, basedir, nsbins, header, repfh )
+    repfh.close()
+
+    if not hist == None:
+       dpy.dumpHistByKey( res, header, hist[0] )
 
 sys.stderr.close()
