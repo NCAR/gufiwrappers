@@ -9,6 +9,13 @@ def tsToYrMnIdx( tme ):
    mn = int(mn)
    return (yr - 1970)*12 + (mn - 1)
 
+def tsToYMND( tm ):
+   """
+   Return YY-mm-dd from Unix time
+   """
+   from datetime import datetime
+   return datetime.fromtimestamp(tm).strftime('%Y-%m-%d')
+
 def yrMnIdxToTs( idx ):
    """
    Generates Unix time stamp from month inde since 01/01/1970

@@ -28,7 +28,7 @@ def parseNfill( fl ):
          tmp = line.split('\x1E')
          try:
             size = int(tmp[0]); uid = int(tmp[1]); mtime = int(tmp[2]);
-            atime = int(tmp[3]); fname = tmp[5]; path = tmp[6]; 
+            atime = int(tmp[3]); 
             if len(tmp[4]) > 0:
                proj = int(tmp[4])
             else:

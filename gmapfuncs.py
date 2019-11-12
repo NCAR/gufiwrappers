@@ -135,7 +135,7 @@ def fsnameToSearch( fsname ):
    else:
       return '/search/hpss' + fsname
 
-def searchToFsname( sname ):
+def searchToFsName( sname ):
    """
    Maps filesystem/HPSS tree name to GUFI-tree name
    """
