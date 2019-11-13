@@ -1,7 +1,6 @@
 #!/bin/bash
 
 EXEDIR=$(dirname ${BASH_SOURCE[0]})
-echo $EXEDIR
 me=$0
 justme=$(basename $me)
 
