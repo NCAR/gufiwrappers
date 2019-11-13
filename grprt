@@ -12,4 +12,4 @@ ncar_pylib > /dev/null
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US.UTF-8"
 
-$EXEDIR $justme.py $*
+$EXEDIR/$justme.py $*
