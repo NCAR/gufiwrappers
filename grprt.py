@@ -65,7 +65,7 @@ def parseCmdLine( ):
     ncores = int(args.ncores)
     nsbins = int(args.nsbins)
     return gufitmp, args.byusers, args.byprojects, args.subdirsof, args.fuids, \
-           args.fpids, cfiles, args.ncores, args.nsbins, args.hist 
+           args.fpids, cfiles, ncores, args.nsbins, args.hist 
 
 
 if __name__ == "__main__":
