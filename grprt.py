@@ -52,9 +52,7 @@ def parseCmdLine( ):
     parser.add_argument('--nthreads', dest='ncores', default=1, metavar='number-of-cores or processes',
                       help='Number of cores / threads to run')
     parser.add_argument('--nsbins', dest='nsbins', default=8, metavar='number-of-histogram bins [8]',
-                       help='Number of write / read stat histogram bins')
-    parser.add_argument('--hist', dest='hist', nargs='+', metavar='Histogram output file',
-                       help='CSV file name for histgram data')
+                       help='Number of write / read stat histogram bins in report')
     parser.add_argument(dest='treename', help='Absolute path of the filesystem tree located in\
                           either in glade, campaign or HPSS')
     args = parser.parse_args()
@@ -65,11 +63,12 @@ def parseCmdLine( ):
     ncores = int(args.ncores)
     nsbins = int(args.nsbins)
     return gufitmp, args.byusers, args.byprojects, args.subdirsof, args.fuids, \
-           args.fpids, cfiles, ncores, args.nsbins, args.hist 
+           args.fpids, cfiles, ncores, args.nsbins
 
 
 if __name__ == "__main__":
-    gufitmp, byusers, byprojects, subdirsof, fuids, fpids, cfiles, ncores, nsbins, hist = parseCmdLine( )
+    gufitmp, byusers, byprojects, subdirsof, fuids, fpids, \
+    cfiles, ncores, nsbins = parseCmdLine( )
 
     errorfile, wdir = ol.getProcFilename( gufitmp, "log" )
     sys.stderr = open(errorfile, 'w')
@@ -101,7 +100,7 @@ if __name__ == "__main__":
     dpy.displayDataByKey( res, total, basedir, nsbins, header, repfh )
     repfh.close()
 
-    if not hist == None:
-       dpy.dumpHistByKey( res, header, hist[0] )
+    histfile, wdir = ol.getProcFilename( gufitmp, "hist" )
+    dpy.dumpHistByKey( res, header, histfile )
 
-sys.stderr.close()
+    sys.stderr.close()

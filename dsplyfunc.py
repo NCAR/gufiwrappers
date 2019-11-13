@@ -84,7 +84,7 @@ def dumpHistByKey( results, keyid, fname ):
       elif keyid == "Projs":
          keyname = gm.getPname( uid )
       else:
-         keyname = uid
+         keyname = str(uid)
       headw = keyname + '_w'
       headr = keyname + '_r'
       tmpdf = pd.DataFrame( {headw: row['wHist'], headr: row['rHist']} )

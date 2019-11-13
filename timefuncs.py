@@ -1,4 +1,6 @@
 
+ts = ''
+
 def tsToYrMnIdx( tme ):
    """
    returns yr month index from unix time
@@ -44,6 +46,17 @@ def getDsplyIdx( hist, size, nh ):
          frac += 1./nh
    return idxlst
 
+
+def getTsForFname( ):
+    """
+    returns ts
+    """
+    import time
+    from datetime import datetime
+    global ts
+    if len(ts) == 0:
+       ts = datetime.fromtimestamp(time.time()).strftime('%Y%m%d_%H%M%S')
+    return ts
 
 def procPeriod( perstr ):
     """

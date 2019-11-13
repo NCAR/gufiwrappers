@@ -55,7 +55,7 @@ def getUname( uid ):
    if uid in uid2uname:
       return uid2uname[uid]
    else:
-      return uid
+      return str(uid)
 
 
 def getUid( uname ):
@@ -103,7 +103,7 @@ def getPname( pid ):
    if pid in pid2pname:
       return pid2pname[pid]
    else:
-      return pid
+      return str(pid)
 
 
 def getPid( pname ):
