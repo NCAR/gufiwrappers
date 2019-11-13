@@ -4,7 +4,7 @@ import os
 import sys
 import argparse
 import glob
-import gmapfuncs as gmap
+import gmapfuncs as gm
 import timefuncs as tm
 import querygen as qg
 import outputlocs as ol
@@ -34,14 +34,14 @@ def conCatReport( cfiles, gufitmp, inputfields ):
                    size = int(tmp[0]); uid = int(tmp[1])
                    mtime = int(tmp[2]); atime = int(tmp[3]);
                    if len(tmp) > 7:
-                      proj = gmap.getPname( int(tmp[4]) ); 
-                      fullname = '/'.join([gmap.searchToFsName(tmp[6]),tmp[5]])
+                      proj = gm.getPname( int(tmp[4]) ); 
+                      fullname = '/'.join([gm.searchToFsName(tmp[6]),tmp[5]])
                    else:
                       proj = 'NULL'; 
-                      fullname = '/'.join([gmap.searchToFsName(tmp[5]),tmp[4]])
+                      fullname = '/'.join([gm.searchToFsName(tmp[5]),tmp[4]])
                    if atime < mtime:
                       atime = mtime
-                   fdict = {'filename':fullname, 'size':str(size), 'owner':gmap.getUname( uid ),
+                   fdict = {'filename':fullname, 'size':str(size), 'owner':gm.getUname( uid ),
                             'project':proj, 'mtime':tm.tsToYMND( mtime ),
                             'atime':tm.tsToYMND( atime )}
                    vals = []
@@ -62,6 +62,13 @@ def executeGufiScriptOnServer( scriptfile ):
     fullcmd = ' '.join([sshcmd, scriptfile])
     os.system(fullcmd)
     
+def checkListFields( listfields ):
+    validfields = ['filename', 'size', 'owner', 'project', 'mtime', 'atime']
+    for ent in listfields:
+       if ent not in validfields:
+           print("The field ",ent," not valid, the list of valid field is: ", validfields)
+           exit(-1)
+    return True
 
 def parseCmdLine( ):
     """
@@ -111,16 +118,17 @@ def parseCmdLine( ):
     gufitmp = args.gufitmp
     try:
        fields = args.listd[0].split(',')
+       checkListFields( fields )
     except:
        fields = None
     cachedir = os.path.join(gufitmp, 'raw')
-    uids = gmap.getUlist( args.fuids, 'users' )
-    pids = gmap.getUlist( args.projs, 'projects' )
+    uids = gm.getUlist( args.fuids, 'users' )
+    pids = gm.getUlist( args.projs, 'projects' )
     wp = tm.procPeriod( args.writep )
     rp = tm.procPeriod( args.readp )
     nthreads = args.nthreads
     verbosity = args.verbosity
-    gufitree = gmap.fsnameToSearch( args.treename )
+    gufitree = gm.fsnameToSearch( args.treename )
     if gufitree.startswith('/search/hpss'):
        wpname = 'ctime'
     else:
@@ -138,6 +146,12 @@ def parseCmdLine( ):
 
 
 verbosity, uids, pids, wp, wpname, rp, fields, inputdelim, gufitmp, cachedir, nthreads, gufitree = parseCmdLine( )
+
+errorfile, wdir = ol.getProcFilename( gufitmp, "logs" )
+sys.stderr = open(errorfile, 'a+')
+print("The command line was: ",file=sys.stderr)
+print(sys.argv,file=sys.stderr)
+
 guficmd = qg.getGufiQryCmd( uids, pids, wp, wpname, rp, cachedir, nthreads, gufitree )
 scriptfile, scriptdir = writeGufiScript( gufitmp, guficmd )
 if verbosity:
