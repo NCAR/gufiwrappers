@@ -1,4 +1,8 @@
+# gufiwrappers
 
+**gufiwrappers** is a collection of python scripts for NCAR users
+of our Grand Unified File Index (GUFI) installation for data holdings
+under different NCAR storage devices.
 
 
 These scripts are to help end users effectively and conveniently
