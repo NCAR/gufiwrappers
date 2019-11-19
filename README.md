@@ -19,13 +19,18 @@ So functionally users need to execute these two commands in
 sequence.
 
 Both the scripts are available in users path after loading **gufiwrappers**
-module on Casper nodes. Both of these scripts have '-h/--help' option
+module on Casper nodes. Both of these scripts have `-h/--help` option
 for basic usage details. In this page little more elabore usage detail
 and few example output is explained.
 
 
 ## gwrap
-<pre >
+**grap** needs to be run to generate raw data querying **GUFI** DB.
+Optionally it can add filters to the query and generate the list of
+files (--list=filename,onwer,.. ) and/or add filters on owners, projects
+(HPSS only), modification and access time as described in this help
+outout below. Few example use cases are documented below.
+<pre>
 usage: gwrap [-h] [--gufitmp-dir= path-name]
              [--list= filename,size,owner,project,mtime,atime]
              [--owners= User1,User2,..] [--projects= Proj1,Proj2,..]
