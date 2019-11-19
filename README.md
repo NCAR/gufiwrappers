@@ -18,12 +18,13 @@ into two parts,
 So functionally users need to execute these two commands in 
 sequence.
 
+Both the scripts are available in users path after loading **gufiwrappers**
+module on Casper nodes. Both of these scripts have '-h/--help' option
+for basic usage details. In this page little more elabore usage detail
+and few example output is explained.
 
-These scripts are to help end users effectively and conveniently
-use GUFI to manage their holdings under Project, Campaign and HPSS.
-The gcache and gfind are to be run on the server on which GUFI DB
-resides while grprt can be run anywhere as long as there is a decent
-installation of python3.
+
+## gwrap
 usage: gwrap [-h] [--gufitmp-dir= path-name]
              [--list= filename,size,owner,project,mtime,atime]
              [--owners= User1,User2,..] [--projects= Proj1,Proj2,..]
