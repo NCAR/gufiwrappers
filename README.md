@@ -51,7 +51,7 @@ optional arguments:
   -h, --help            show this help message and exit
   --gufitmp-dir= path-name
                         Absolute path name to store the GUFI query output
-                        default: /gpfs/fs1/scratch/sghosh/gufi_tmp
+                        default: /gpfs/fs1/scratch/<username>/gufi_tmp
   --list= filename,size,owner,project,mtime,atime
                         Generate list of files with one or more of the
                         attributes from filename, size, owner, project, mtime,
@@ -78,9 +78,10 @@ optional arguments:
   --nthreads number-of-threads
                         Number of threads to run GUFI query
   --verbose, -v         Adds verbosity
-
-The results are stored by default under 1. gufitmp-dir/raw (the raw output
-from gufi_query) 2. gufitmp-dir/scripts (the scripts submitted to gufi_query)
-3. gufitmp-dir/reports (the final reports, file lists etc.) 4. gufitmp-dir/log
-(the errors etc.)
 </pre>
+
+The results are stored by default under 
+-- `gufitmp`/raw (the raw output from gufi_query) 
+-- `gufitmp`/scripts (the scripts submitted to gufi_query)
+-- `gufitmp`/reports (the final reports, file lists etc.) 
+-- `gufitmp`/log (the errors etc.)
