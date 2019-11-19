@@ -81,7 +81,7 @@ optional arguments:
 </pre>
 
 The results are stored by default under 
--- `gufitmp`/raw (the raw output from gufi_query) 
--- `gufitmp`/scripts (the scripts submitted to gufi_query)
--- `gufitmp`/reports (the final reports, file lists etc.) 
--- `gufitmp`/log (the errors etc.)
+1. `gufitmp`/raw (the raw output from gufi_query) 
+2. `gufitmp`/scripts (the scripts submitted to gufi_query)
+3. `gufitmp`/reports (the final reports, file lists etc.) 
+4. `gufitmp`/log (the errors etc.)
