@@ -25,7 +25,7 @@ and few example output is explained.
 
 
 ## gwrap
-...
+<p>
 usage: gwrap [-h] [--gufitmp-dir= path-name]
              [--list= filename,size,owner,project,mtime,atime]
              [--owners= User1,User2,..] [--projects= Proj1,Proj2,..]
@@ -78,4 +78,4 @@ The results are stored by default under 1. gufitmp-dir/raw (the raw output
 from gufi_query) 2. gufitmp-dir/scripts (the scripts submitted to gufi_query)
 3. gufitmp-dir/reports (the final reports, file lists etc.) 4. gufitmp-dir/log
 (the errors etc.)
-...
+</p>
