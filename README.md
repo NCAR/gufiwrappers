@@ -1,8 +1,22 @@
 # gufiwrappers
 
 **gufiwrappers** is a collection of python scripts for NCAR users
-of our Grand Unified File Index (GUFI) installation for data holdings
-under different NCAR storage devices.
+of our Grand Unified File Index (GUFI) installation for querying
+and reporting against out data holdings under different CISL 
+maintained NCAR storage devices. The syntax of Raw **GUFI** 
+query tools are somewhat terse and output most often 
+requires further processing for meaningful and actionable reports. 
+Hence is the reason for coming up with these wrappers.
+
+The **GUFI** tools (primarily gufi_query or multi-threaded breadth
+first search in a tree) generates raw reports, in csv
+format, one file per thread. Considering the format and mechanism of
+generation of this input the **gufiwrappers** tool set is broken 
+into two parts,
+1. gwrap (generates raw reports and optionally a file list))
+2. grprt (generates statistics from raw report)
+So functionally users need to execute these two commands in 
+sequence.
 
 
 These scripts are to help end users effectively and conveniently
