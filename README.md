@@ -25,19 +25,19 @@ and few example output is explained.
 
 
 ## gwrap
-usage: gwrap [-h] [--gufitmp-dir= path-name]
-             [--list= filename,size,owner,project,mtime,atime]
-             [--owners= User1,User2,..] [--projects= Proj1,Proj2,..]
-             [--write-period= YYYY[MM[DD]]-YYYY[MM[DD]]]
-             [--read-period= YYYY[MM[DD]]-YYYY[MM[DD]]]
-             [--nthreads number-of-threads] [--verbose]
-             Absolute Path of filesystem directory
-
+usage: gwrap [-h] [--gufitmp-dir= path-name]\
+             [--list= filename,size,owner,project,mtime,atime]\
+             [--owners= User1,User2,..] [--projects= Proj1,Proj2,..]\
+             [--write-period= YYYY[MM[DD]]-YYYY[MM[DD]]]\
+             [--read-period= YYYY[MM[DD]]-YYYY[MM[DD]]]\
+             [--nthreads number-of-threads] [--verbose]\
+             Absolute Path of filesystem directory\
+\
 Generate Cache DB and optionally a filename list for a given filesystem tree
 querying GUFI DB
-
-positional arguments:
-  Absolute Path of filesystem directory
+\
+positional arguments:\
+  Absolute Path of filesystem directory\
                         Absolute path of the filesystem tree located in either
                         in glade, campaign or HPSS
 
