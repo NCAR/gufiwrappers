@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>grprt &#8212; gufiwrappers  documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="gwrap" href="gwrap.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="gwrap.html" title="gwrap"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">gufiwrappers  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="grprt">
+<h1>grprt<a class="headerlink" href="#grprt" title="Permalink to this headline">¶</a></h1>
+<p><p>Generate report from raw data</p>
+</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">grprt</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">gufitmp</span><span class="o">-</span><span class="nb">dir</span><span class="o">=</span> <span class="n">path</span><span class="o">-</span><span class="n">name</span><span class="p">]</span>
+             <span class="p">[</span><span class="o">--</span><span class="n">by</span><span class="o">-</span><span class="n">users</span> <span class="o">|</span> <span class="o">--</span><span class="n">by</span><span class="o">-</span><span class="n">projects</span> <span class="o">|</span> <span class="o">--</span><span class="n">by</span><span class="o">-</span><span class="n">subdirs</span><span class="o">-</span><span class="n">of</span><span class="o">=</span> <span class="p">[</span><span class="n">Parent</span> <span class="n">directory</span><span class="p">]]</span>
+             <span class="p">[</span><span class="o">--</span><span class="nb">filter</span><span class="o">-</span><span class="n">by</span><span class="o">-</span><span class="n">unames</span><span class="o">=</span> <span class="p">[</span><span class="n">User1</span><span class="p">,</span><span class="n">User2</span><span class="p">,</span><span class="o">..</span><span class="p">]</span> <span class="p">[[</span><span class="n">User1</span><span class="p">,</span><span class="n">User2</span><span class="p">,</span><span class="o">..</span><span class="p">]</span> <span class="o">...</span><span class="p">]]</span>
+             <span class="p">[</span><span class="o">--</span><span class="nb">filter</span><span class="o">-</span><span class="n">by</span><span class="o">-</span><span class="n">projects</span><span class="o">=</span> <span class="p">[</span><span class="n">Project1</span><span class="p">,</span><span class="n">Project2</span><span class="p">,</span><span class="o">..</span><span class="p">]</span>
+             <span class="p">[[</span><span class="n">Project1</span><span class="p">,</span><span class="n">Project2</span><span class="p">,</span><span class="o">..</span><span class="p">]</span> <span class="o">...</span><span class="p">]]</span>
+             <span class="p">[</span><span class="o">--</span><span class="n">nthreads</span> <span class="n">number</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">cores</span> <span class="ow">or</span> <span class="n">processes</span><span class="p">]</span>
+             <span class="p">[</span><span class="o">--</span><span class="n">nsbins</span> <span class="n">number</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">histogram</span> <span class="n">bins</span> <span class="p">[</span><span class="mi">8</span><span class="p">]]</span>
+             <span class="n">treename</span>
+</pre></div>
+</div>
+<div class="section" id="Positional Arguments">
+<h2>Positional Arguments<a class="headerlink" href="#Positional Arguments" title="Permalink to this headline">¶</a></h2>
+<dl class="option-list">
+<dt><kbd>treename</kbd></dt>
+<dd><p>Absolute path of the filesystem tree located in                          either in glade, campaign or HPSS</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="Named Arguments">
+<h2>Named Arguments<a class="headerlink" href="#Named Arguments" title="Permalink to this headline">¶</a></h2>
+<dl class="option-list">
+<dt><kbd>--gufitmp-dir=</kbd></dt>
+<dd><p>Absolute path name to store the GUFI query output                    default: /gpfs/fs1/scratch/sghosh/gufi_tmp</p>
+<p>Default: “/gpfs/fs1/scratch/sghosh/gufi_tmp”</p>
+</dd>
+<dt><kbd>--by-users</kbd></dt>
+<dd><p>report by user-name / user-ids (if mapping not found)</p>
+<p>Default: False</p>
+</dd>
+<dt><kbd>--by-projects</kbd></dt>
+<dd><p>report by project-name / project-id (if mapping not found) HPSS only</p>
+<p>Default: False</p>
+</dd>
+<dt><kbd>--by-subdirs-of=</kbd></dt>
+<dd><p>report by subdirectories of this parent directory</p>
+</dd>
+<dt><kbd>--filter-by-unames=</kbd></dt>
+<dd><p>Report only for User1[,User2]..</p>
+</dd>
+<dt><kbd>--filter-by-projects=</kbd></dt>
+<dd><p>Report only for Project1[,Project2]..</p>
+</dd>
+<dt><kbd>--nthreads</kbd></dt>
+<dd><p>Number of cores / threads to run</p>
+<p>Default: 1</p>
+</dd>
+<dt><kbd>--nsbins</kbd></dt>
+<dd><p>Number of write / read stat histogram bins in report</p>
+<p>Default: 8</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">grprt</a><ul>
+<li><a class="reference internal" href="#Positional Arguments">Positional Arguments</a></li>
+<li><a class="reference internal" href="#Named Arguments">Named Arguments</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="gwrap.html"
+                        title="previous chapter">gwrap</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/grprt.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="gwrap.html" title="gwrap"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">gufiwrappers  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, myself.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+    </div>
+  </body>
+</html>
