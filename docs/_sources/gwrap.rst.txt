@@ -1,7 +1,0 @@
-gwrap
-***********************
-
-.. argparse::
-   :func: parser
-   :filename: ./gwrap.py
-   :prog: gwrap

@@ -1,7 +1,0 @@
-grprt
-***********************
-
-.. argparse::
-   :func: parser
-   :filename: ./grprt.py
-   :prog: grprt
