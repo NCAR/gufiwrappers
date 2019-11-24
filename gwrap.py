@@ -70,14 +70,19 @@ def checkListFields( listfields ):
            exit(-1)
     return True
 
+less_indent_formatter = lambda prog: argparse.RawTextHelpFormatter(prog, max_help_position=2)
+
 def parseCmdLine( ):
     """
     Mainly the argparser stuff dumped in a single function
     """
     gufitmp = os.path.join('/gpfs/fs1/scratch', os.environ['LOGNAME'], 'gufi_tmp')
-    parser = argparse.ArgumentParser(prog='gwrap',description='Generate Cache DB and\
-             optionally a filename list for a given filesystem tree \
-             querying GUFI DB', epilog="""
+    parser = argparse.ArgumentParser(prog='gwrap',description="""
+             Generate Cache DB and optionally a filename list for 
+             a given filesystem tree querying GUFI DB.
+             """,
+             formatter_class=less_indent_formatter,
+             epilog="""
              The results are stored by default under
                 1. gufitmp-dir/raw     (the raw output from gufi_query)
                 2. gufitmp-dir/scripts (the scripts submitted to gufi_query)
@@ -85,35 +90,49 @@ def parseCmdLine( ):
                 4. gufitmp-dir/log     (the errors etc.)
              """)
     parser.add_argument('--gufitmp-dir=', dest='gufitmp', default=gufitmp, 
-                    metavar='path-name',
-                    help='Absolute path name to store the GUFI query output\
-                    default: ' + gufitmp)
+             metavar='path-name', 
+             help="""Absolute path name to store the GUFI query output
+             default: """ + gufitmp + """
+
+             """)
     parser.add_argument('--list=', dest='listd', nargs=1, required=False, 
                        metavar='filename,size,owner,project,mtime,atime',
-                       help='Generate list of files with one or more of the attributes\
-                       from filename, size, owner, project, mtime, atime in order as\
-                       specified delimited by comma(,).')
+             help="""
+             Generate list of files with one or more of the attributes
+             from filename, size, owner, project, mtime, atime in order as
+             specified delimited by comma(,).""")
     parser.add_argument('--owners=', dest='fuids', nargs=1, metavar='User1,User2,..',
-                    help='for content owned only by users User1,User2,..')
+             help="""
+             for content owned only by users User1,User2,..
+             """)
     parser.add_argument('--projects=', dest='projs', nargs=1, metavar='Proj1,Proj2,..',
-                    help='for content associated with projects Proj1,Proj2.., (applicable\
-                          only in HPSS)')
+             help="""
+             for content associated with projects Proj1,Proj2.., 
+             (applicable only in HPSS)
+             """)
     parser.add_argument('--write-period=', dest='writep', metavar='YYYY[MM[DD]]-YYYY[MM[DD]]',
-                    help='for content written during the time window YYYY[MM[DD]]-YYYY[MM[DD]] \
-                          either of begin or end period may be omitted for open interval but\
-                          not both. For time specification 4-digit year is required, 2-digit\
-                          month may be specified, if month is specified 2-digit may be specified.')
+             help="""
+             for content written during the time window YYYY[MM[DD]]-YYYY[MM[DD]]
+             either of begin or end period may be omitted for open interval but
+             not both. For time specification 4-digit year is required, 2-digit
+             month may be specified, if month is specified 2-digit may be specified.""")
     parser.add_argument('--read-period=', dest='readp',  metavar='YYYY[MM[DD]]-YYYY[MM[DD]]',
-                    help='for content read during time the window YYYY[MM[DD]]-YYYY[MM[DD]] \
-                          either of begin or end period may be omitted for open interval but\
-                          not both. For time specification 4-digit year is required, 2-digit\
-                          month may be specified, if month is specified 2-digit may be specified.')
-    parser.add_argument('--nthreads', dest='nthreads', default=20, metavar='number-of-threads',
-                     help='Number of threads to run GUFI query')
-    parser.add_argument('--verbose','-v',dest='verbosity', action='store_true', help='Adds verbosity')
-    parser.add_argument(dest='treename', metavar='Absolute Path of filesystem directory',
-                        help='Absolute path of the filesystem tree located in\
-                          either in glade, campaign or HPSS')
+             help="""
+             for content read during time the window YYYY[MM[DD]]-YYYY[MM[DD]]
+             either of begin or end period may be omitted for open interval but
+             not both. For time specification 4-digit year is required, 2-digit
+             month may be specified, if month is specified 2-digit may be specified.""")
+    parser.add_argument('--nthreads', dest='nthreads', default=20, 
+             metavar='number-of-threads', help="""
+             Number of threads to run GUFI query""")
+    parser.add_argument('--verbose','-v',dest='verbosity', action='store_true', 
+             help='Adds verbosity')
+    parser.add_argument(dest='treename', metavar='Absolute path', help="""
+             Absolute path in the filesystem tree starting with one of 
+             1. /glade/p or /gpfs/fs1/p  for project spaces
+             2. /glade/campaign or /gpfs/csfs1, for Campaign storage
+             3. /  for HPSS
+             """)
     args = parser.parse_args()
     gufitmp = args.gufitmp
     try:
