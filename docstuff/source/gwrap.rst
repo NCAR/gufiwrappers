@@ -3,6 +3,6 @@ gwrap
 
 .. argparse::
    :func: parserForGwrap
-   :filename: ./cmdline.py
+   :filename: ../cmdline.py
    :prog: gwrap
 

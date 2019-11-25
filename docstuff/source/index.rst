@@ -11,7 +11,6 @@ Welcome to gufiwrappers's documentation!
    :caption: Contents:
 
    gwrap
-   grprt
 
 
 
