@@ -4,9 +4,9 @@
    contain the root `toctree` directive.
 
 Welcome to gufiwrappers's documentation!
+========================================
 Currently this tool is meant to be used from Casper. It spawns
 GUFI query to squall1 and stores the output into <gufi_tmp> tree.
-========================================
 
 .. toctree::
    :maxdepth: 1
