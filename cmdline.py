@@ -76,8 +76,34 @@ where absolute path in the filesystem tree starting with one of
   3. /                               for HPSS""")
     return parser
 
+def parserForGrprt( ):
+    global gufitmp
+    parser = argparse.ArgumentParser(description='Generate report from raw data')
+    parser.add_argument('--gufitmp-dir=', dest='gufitmp', default=gufitmp,
+                    metavar='path-name',
+                    help='Absolute path name to store the GUFI query output\
+                    default: ' + gufitmp)
+    grprprtby = parser.add_mutually_exclusive_group(required=False)
+    grprprtby.add_argument('--by-users', dest='byusers', action='store_true',
+                       help='report by user-name / user-ids (if mapping not found)')
+    grprprtby.add_argument('--by-projects', dest='byprojects', action='store_true',
+                       help='report by project-name / project-id (if mapping not found) HPSS only')
+    grprprtby.add_argument('--by-subdirs-of=', dest='subdirsof',  metavar='[Parent directory]',
+                       help='report by subdirectories of this parent directory')
+    parser.add_argument('--filter-by-unames=', dest='fuids', nargs='+', metavar='[User1,User2,..]',
+                    help='Report only for User1[,User2]..')
+    parser.add_argument('--filter-by-projects=', dest='fpids', nargs='+', metavar='[Project1,Project2,..]',
+                    help='Report only for Project1[,Project2]..')
+    parser.add_argument('--nthreads', dest='ncores', default=1, metavar='number-of-cores or processes',
+                      help='Number of cores / threads to run')
+    parser.add_argument('--nsbins', dest='nsbins', default=8, metavar='number-of-histogram bins [8]',
+                       help='Number of write / read stat histogram bins in report')
+    parser.add_argument(dest='treename', help='Absolute path of the filesystem tree located in\
+                          either in glade, campaign or HPSS')
+    return parser
+
 
 
 if __name__ == "__main__":
-    parserForGwrap( ).parse_args()
-    
+#   parserForGwrap( ).parse_args()
+    parserForGrprt( ).parse_args()
