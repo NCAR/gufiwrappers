@@ -11,7 +11,7 @@ In order to use this tool do the following:
 #. login to casper
 #. module load gufiwrappers
 #. run :doc:`gwrap </gwrap>` (with appropriate options)
-#. optionally run grprt (to generate brief reports)
+#. optionally run :doc:`grprt </grprt>` (to generate brief reports)
 #. optionally run gplot to produce graphical reports
 
 The output location tree will like
