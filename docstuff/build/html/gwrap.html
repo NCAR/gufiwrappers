@@ -16,6 +16,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example 1:" href="gw_ex1.html" />
     <link rel="prev" title="Welcome to gufiwrappers’s documentation!" href="index.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -24,6 +25,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="gw_ex1.html" title="Example 1:"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Welcome to gufiwrappers’s documentation!"
              accesskey="P">previous</a> |</li>
@@ -117,6 +121,38 @@ month may be specified, if month is specified 2-digit may be specified.</p>
 </dd>
 </dl>
 </p>
+<p>This program generates the raw files querying GUFI-DB, for further
+processing by grprt. Optionally it generates the file lists if the
+–list option is added.  The raw files are stored under</p>
+<p>&lt;gufitmp&gt;/&lt;absolute-path-name-of-parent&gt;/&lt;directory-name&gt;.dat.&lt;thread-id&gt;</p>
+<p>and are in CSV format with 0x1E character as delimiter chosen to allow
+for all legal characters in filename and directory names. These raw
+files are not meant to be human readable.</p>
+<p>It is to be noted that each time gwrap is run on a particular directory,
+is being rewritten or overwritten. Therefore, while running grprt it is
+important to note that the report is on the latest copy of the raw files.
+In case the raw files are generated with a filter with one or more of owners,
+project, mtime and atime then the report too will be on that restricted
+set of data.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gw_ex1.html">Example 1:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gw_ex2.html">Example 2:</a></li>
+</ul>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+<p>The <strong>gufiwrappers</strong> github page is <a class="reference external" href="https://www.github.com/NCAR/gufiwrappers">here</a>.
+Please post any bugs, feedbacks, comments or feature requests
+<a class="reference external" href="https://github.com/NCAR/gufiwrappers/issues">here</a> or just send an email to
+<a class="reference external" href="mailto:sghosh">me</a>.</p>
+</div>
 </div>
 
 
@@ -130,6 +166,7 @@ month may be specified, if month is specified 2-digit may be specified.</p>
 <li><a class="reference internal" href="#">gwrap</a><ul>
 <li><a class="reference internal" href="#Positional Arguments">Positional Arguments</a></li>
 <li><a class="reference internal" href="#Named Arguments">Named Arguments</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 </li>
 </ul>
@@ -137,6 +174,9 @@ month may be specified, if month is specified 2-digit may be specified.</p>
   <h4>Previous topic</h4>
   <p class="topless"><a href="index.html"
                         title="previous chapter">Welcome to gufiwrappers’s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="gw_ex1.html"
+                        title="next chapter">Example 1:</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -164,6 +204,9 @@ month may be specified, if month is specified 2-digit may be specified.</p>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="gw_ex1.html" title="Example 1:"
+             >next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Welcome to gufiwrappers’s documentation!"
              >previous</a> |</li>

@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Example 2: &#8212; gufiwrappers  documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="grprt" href="grprt.html" />
+    <link rel="prev" title="Example 1:" href="gw_ex1.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="grprt.html" title="grprt"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="gw_ex1.html" title="Example 1:"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">gufiwrappers  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="gwrap.html" accesskey="U">gwrap</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="example-2">
+<h1>Example 2:<a class="headerlink" href="#example-2" title="Permalink to this headline">¶</a></h1>
+<p>If you need to generate a list of files,</p>
+<ol class="arabic simple">
+<li><p>owned by user <em>xyz</em></p></li>
+<li><p>written (or created) between year 2010 and 2015</p></li>
+</ol>
+<p>in any directory under HPSS with</p>
+<ol class="arabic simple">
+<li><p>project-name</p></li>
+<li><p>size</p></li>
+<li><p>modification time</p></li>
+<li><p>filename</p></li>
+</ol>
+<p>in comma separated format with one file per line then:</p>
+<ol class="arabic simple">
+<li><p>login to casper</p></li>
+<li><p>module load gufiwrappers</p></li>
+<li><p><strong>gwrap –list=project,size,mtime,filename –onwers=xyz –write-period=2010-2015 /</strong></p></li>
+</ol>
+<p>The above command will run GUFI query in <strong>squall1</strong> and generate the
+filelist under</p>
+<p>/glade/scratch/&lt;user-name&gt;/gufi_tmp/reports/rep_ccYYmmdd_HHMMss.dat</p>
+<p>where,</p>
+<ol class="arabic simple">
+<li><p>cc is for 2 digit century 19 for 19xx and 20 for 20xx</p></li>
+<li><p>YY is 2 digit year e.g. 13 for 2013</p></li>
+<li><p>mm is 2 digit month (1..12)</p></li>
+<li><p>dd is 2 digit day (1..31)</p></li>
+<li><p>HH is 2 digit hour (0..23)</p></li>
+<li><p>MM is 2 digit minute (0..59)</p></li>
+<li><p>ss is 2 digit second (0..59)</p></li>
+</ol>
+<p>The first few lines may appear as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">116719</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2012</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">04</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">test4</span><span class="o">/</span><span class="n">ts</span><span class="o">.</span><span class="n">jpg</span>
+<span class="mi">4031308</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2012</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">13</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">pwsc1pqr</span><span class="o">/</span><span class="n">PQR_filelist</span>
+<span class="mi">150556190720</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2012</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">13</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">pwsc1pqr</span><span class="o">/</span><span class="n">XYZQ</span><span class="o">-</span><span class="mi">1</span><span class="n">_PQR</span><span class="o">.</span><span class="n">tar</span>
+<span class="mi">63717500</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2011</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">01</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">archives</span><span class="o">/</span><span class="n">rfp11</span><span class="o">/</span><span class="n">comp_lic</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+<span class="mi">394240</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2014</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">03</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">test3</span><span class="o">/</span><span class="mi">2014</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mf">03.</span><span class="n">htar</span>
+<span class="mi">3872</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2014</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">03</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">test3</span><span class="o">/</span><span class="mi">2014</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mf">03.</span><span class="n">htar</span><span class="o">.</span><span class="n">idx</span>
+<span class="mi">0</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2011</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">test3</span><span class="o">/</span><span class="n">junk</span>
+<span class="p">:</span>
+<span class="p">:</span>
+</pre></div>
+</div>
+<p>where, the character comma (,) is the delimiter,</p>
+<ol class="arabic simple">
+<li><p>first field is the size in bytes,</p></li>
+<li><p>second field is the project name and</p></li>
+<li><p>3rd field is the modification time</p></li>
+<li><p>4th field is the filename with absolute path.</p></li>
+</ol>
+<p>The <strong>gufiwrappers</strong> github page is <a class="reference external" href="https://www.github.com/NCAR/gufiwrappers">here</a>.
+Please post any bugs, feedbacks, comments or feature requests
+<a class="reference external" href="https://github.com/NCAR/gufiwrappers/issues">here</a> or just send an email to
+<a class="reference external" href="mailto:sghosh">me</a>.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="gw_ex1.html"
+                        title="previous chapter">Example 1:</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="grprt.html"
+                        title="next chapter">grprt</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/gw_ex2.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="grprt.html" title="grprt"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="gw_ex1.html" title="Example 1:"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">gufiwrappers  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="gwrap.html" >gwrap</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Sidd.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+    </div>
+  </body>
+</html>
