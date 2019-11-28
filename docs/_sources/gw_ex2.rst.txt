@@ -1,9 +1,9 @@
-Example 2:
+List files owned by a user xyz123 and written between year 2010 and 2015
 ***********************
 
 If you need to generate a list of files,
 
-#.  owned by user *xyz* 
+#.  owned by user *xyz123* 
 #.  written (or created) between year 2010 and 2015
 
 in any directory under HPSS with 
@@ -17,7 +17,7 @@ in comma separated format with one file per line then:
 
 #. login to casper
 #. module load gufiwrappers
-#. **gwrap --list=project,size,mtime,filename --onwers=xyz --write-period=2010-2015 /**
+#. **gwrap --list=project,size,mtime,filename --owners=xyz123 --write-period=2010-2015 /**
 
 The above command will run GUFI query in **squall1** and generate the
 filelist under
@@ -36,13 +36,13 @@ where,
 
 The first few lines may appear as::
 
-    116719,SCSG0001,2012-05-04,//home/xyz/test4/ts.jpg
-    4031308,SCSG0001,2012-02-13,//home/xyz/pwsc1pqr/PQR_filelist
-    150556190720,SCSG0001,2012-02-13,//home/xyz/pwsc1pqr/XYZQ-1_PQR.tar
-    63717500,SCSG0001,2011-07-01,//home/xyz/archives/rfp11/comp_lic.tar.gz
-    394240,SCSG0001,2014-11-03,//home/xyz/test3/2014:11:03.htar
-    3872,SCSG0001,2014-11-03,//home/xyz/test3/2014:11:03.htar.idx
-    0,SCSG0001,2011-10-31,//home/xyz/test3/junk
+    116719,SCSG0001,2012-05-04,//home/xyz123/test4/ts.jpg
+    4031308,SCSG0001,2012-02-13,//home/xyz123/pwsc1pqr/PQR_filelist
+    150556190720,SCSG0001,2012-02-13,//home/xyz123/pwsc1pqr/XYZQ-1_PQR.tar
+    63717500,SCSG0001,2011-07-01,//home/xyz123/archives/rfp11/comp_lic.tar.gz
+    394240,SCSG0001,2014-11-03,//home/xyz123/test3/2014:11:03.htar
+    3872,SCSG0001,2014-11-03,//home/xyz123/test3/2014:11:03.htar.idx
+    0,SCSG0001,2011-10-31,//home/xyz123/test3/junk
     :
     :
 

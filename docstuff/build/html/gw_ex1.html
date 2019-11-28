@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Example 1: &#8212; gufiwrappers  documentation</title>
+    <title>List files owned by a user stored in any directory under HPSS &#8212; gufiwrappers  documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -41,13 +41,13 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="example-1">
-<h1>Example 1:<a class="headerlink" href="#example-1" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="list-files-owned-by-a-user-stored-in-any-directory-under-hpss">
+<h1>List files owned by a user stored in any directory under HPSS<a class="headerlink" href="#list-files-owned-by-a-user-stored-in-any-directory-under-hpss" title="Permalink to this headline">¶</a></h1>
 <p>If you need to generate the list of files,</p>
 <ol class="arabic simple">
-<li><p>owned by user <em>xyz</em></p></li>
+<li><p>owned by user <em>xyz123</em></p></li>
 </ol>
-<p>in any directory under HPSS with</p>
+<p>in any directory under HPSS and list the files with</p>
 <ol class="arabic simple">
 <li><p>project-name</p></li>
 <li><p>size and</p></li>
@@ -57,10 +57,10 @@
 <ol class="arabic simple">
 <li><p>login to casper</p></li>
 <li><p>module load gufiwrappers</p></li>
-<li><p><strong>gwrap –list=project,size,filename –onwers=xyz /</strong></p></li>
+<li><p><strong>gwrap –list=project,size,filename –owners=xyz123 /</strong></p></li>
 </ol>
 <p>The above command will run GUFI query in <strong>squall1</strong> and generate the
-filelist under</p>
+filelist with date-time-stamped filename as:</p>
 <p>/glade/scratch/&lt;user-name&gt;/gufi_tmp/reports/rep_ccYYmmdd_HHMMss.dat</p>
 <p>where,</p>
 <ol class="arabic simple">
@@ -73,12 +73,12 @@ filelist under</p>
 <li><p>ss is 2 digit second (0..59)</p></li>
 </ol>
 <p>The first few lines may appear as:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">315566080</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">icess_cam_waccm_code</span><span class="o">.</span><span class="n">tar</span>
-<span class="mi">1575905280</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">icess_cam_waccm_data</span><span class="o">.</span><span class="n">tar</span>
-<span class="mi">20480</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">memmon</span><span class="o">.</span><span class="n">tar</span>
-<span class="mi">2193511124</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">oliker</span><span class="o">.</span><span class="n">tgz</span>
-<span class="mi">1374496</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">vim74</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">idx</span>
-<span class="mi">116719</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">test4</span><span class="o">/</span><span class="n">test5</span><span class="o">/</span><span class="n">ts</span><span class="o">.</span><span class="n">jpg</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">315566080</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">icess_cam_waccm_code</span><span class="o">.</span><span class="n">tar</span>
+<span class="mi">1575905280</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">icess_cam_waccm_data</span><span class="o">.</span><span class="n">tar</span>
+<span class="mi">20480</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">memmon</span><span class="o">.</span><span class="n">tar</span>
+<span class="mi">2193511124</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">oliker</span><span class="o">.</span><span class="n">tgz</span>
+<span class="mi">1374496</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">vim74</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">idx</span>
+<span class="mi">116719</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test4</span><span class="o">/</span><span class="n">test5</span><span class="o">/</span><span class="n">ts</span><span class="o">.</span><span class="n">jpg</span>
 <span class="p">:</span>
 <span class="p">:</span>
 </pre></div>

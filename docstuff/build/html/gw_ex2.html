@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Example 2: &#8212; gufiwrappers  documentation</title>
+    <title>List files owned by a user xyz123 and written between year 2010 and 2015 &#8212; gufiwrappers  documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -17,7 +17,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="grprt" href="grprt.html" />
-    <link rel="prev" title="Example 1:" href="gw_ex1.html" /> 
+    <link rel="prev" title="List files owned by a user stored in any directory under HPSS" href="gw_ex1.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -29,7 +29,7 @@
           <a href="grprt.html" title="grprt"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="gw_ex1.html" title="Example 1:"
+          <a href="gw_ex1.html" title="List files owned by a user stored in any directory under HPSS"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">gufiwrappers  documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="gwrap.html" accesskey="U">gwrap</a> &#187;</li> 
@@ -41,11 +41,11 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="example-2">
-<h1>Example 2:<a class="headerlink" href="#example-2" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="list-files-owned-by-a-user-xyz123-and-written-between-year-2010-and-2015">
+<h1>List files owned by a user xyz123 and written between year 2010 and 2015<a class="headerlink" href="#list-files-owned-by-a-user-xyz123-and-written-between-year-2010-and-2015" title="Permalink to this headline">¶</a></h1>
 <p>If you need to generate a list of files,</p>
 <ol class="arabic simple">
-<li><p>owned by user <em>xyz</em></p></li>
+<li><p>owned by user <em>xyz123</em></p></li>
 <li><p>written (or created) between year 2010 and 2015</p></li>
 </ol>
 <p>in any directory under HPSS with</p>
@@ -59,7 +59,7 @@
 <ol class="arabic simple">
 <li><p>login to casper</p></li>
 <li><p>module load gufiwrappers</p></li>
-<li><p><strong>gwrap –list=project,size,mtime,filename –onwers=xyz –write-period=2010-2015 /</strong></p></li>
+<li><p><strong>gwrap –list=project,size,mtime,filename –owners=xyz123 –write-period=2010-2015 /</strong></p></li>
 </ol>
 <p>The above command will run GUFI query in <strong>squall1</strong> and generate the
 filelist under</p>
@@ -75,13 +75,13 @@ filelist under</p>
 <li><p>ss is 2 digit second (0..59)</p></li>
 </ol>
 <p>The first few lines may appear as:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">116719</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2012</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">04</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">test4</span><span class="o">/</span><span class="n">ts</span><span class="o">.</span><span class="n">jpg</span>
-<span class="mi">4031308</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2012</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">13</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">pwsc1pqr</span><span class="o">/</span><span class="n">PQR_filelist</span>
-<span class="mi">150556190720</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2012</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">13</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">pwsc1pqr</span><span class="o">/</span><span class="n">XYZQ</span><span class="o">-</span><span class="mi">1</span><span class="n">_PQR</span><span class="o">.</span><span class="n">tar</span>
-<span class="mi">63717500</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2011</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">01</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">archives</span><span class="o">/</span><span class="n">rfp11</span><span class="o">/</span><span class="n">comp_lic</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
-<span class="mi">394240</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2014</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">03</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">test3</span><span class="o">/</span><span class="mi">2014</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mf">03.</span><span class="n">htar</span>
-<span class="mi">3872</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2014</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">03</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">test3</span><span class="o">/</span><span class="mi">2014</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mf">03.</span><span class="n">htar</span><span class="o">.</span><span class="n">idx</span>
-<span class="mi">0</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2011</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz</span><span class="o">/</span><span class="n">test3</span><span class="o">/</span><span class="n">junk</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">116719</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2012</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">04</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test4</span><span class="o">/</span><span class="n">ts</span><span class="o">.</span><span class="n">jpg</span>
+<span class="mi">4031308</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2012</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">13</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">pwsc1pqr</span><span class="o">/</span><span class="n">PQR_filelist</span>
+<span class="mi">150556190720</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2012</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">13</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">pwsc1pqr</span><span class="o">/</span><span class="n">XYZQ</span><span class="o">-</span><span class="mi">1</span><span class="n">_PQR</span><span class="o">.</span><span class="n">tar</span>
+<span class="mi">63717500</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2011</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">01</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">archives</span><span class="o">/</span><span class="n">rfp11</span><span class="o">/</span><span class="n">comp_lic</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+<span class="mi">394240</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2014</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">03</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test3</span><span class="o">/</span><span class="mi">2014</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mf">03.</span><span class="n">htar</span>
+<span class="mi">3872</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2014</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">03</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test3</span><span class="o">/</span><span class="mi">2014</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mf">03.</span><span class="n">htar</span><span class="o">.</span><span class="n">idx</span>
+<span class="mi">0</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="mi">2011</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test3</span><span class="o">/</span><span class="n">junk</span>
 <span class="p">:</span>
 <span class="p">:</span>
 </pre></div>
@@ -107,7 +107,7 @@ Please post any bugs, feedbacks, comments or feature requests
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="gw_ex1.html"
-                        title="previous chapter">Example 1:</a></p>
+                        title="previous chapter">List files owned by a user stored in any directory under HPSS</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="grprt.html"
                         title="next chapter">grprt</a></p>
@@ -142,7 +142,7 @@ Please post any bugs, feedbacks, comments or feature requests
           <a href="grprt.html" title="grprt"
              >next</a> |</li>
         <li class="right" >
-          <a href="gw_ex1.html" title="Example 1:"
+          <a href="gw_ex1.html" title="List files owned by a user stored in any directory under HPSS"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">gufiwrappers  documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="gwrap.html" >gwrap</a> &#187;</li> 

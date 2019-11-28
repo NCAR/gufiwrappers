@@ -27,8 +27,8 @@ set of data.
    :maxdepth: 1
    :caption: Examples:
 
-   gw_ex1.rst
-   gw_ex2.rst
+   gw_ex1
+   gw_ex2
 
 
 Indices and tables
