@@ -1,4 +1,4 @@
-List files owned by a user xyz123 and written between year 2010 and 2015
+List files owned by a user and written between year 2010 and 2015
 ***********************
 
 If you need to generate a list of files,
