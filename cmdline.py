@@ -3,7 +3,6 @@
 import argparse
 import os
 
-gufitmp = os.path.join('/gpfs/fs1/scratch', os.environ['LOGNAME'], 'gufi_tmp')
 less_indent_formatter = lambda prog: argparse.RawTextHelpFormatter(prog, max_help_position=10)
 
 def parserForGwrap( ):
@@ -105,5 +104,6 @@ def parserForGrprt( ):
 
 
 if __name__ == "__main__":
-#   parserForGwrap( ).parse_args()
+    gufitmp = os.path.join('/gpfs/fs1/scratch', os.environ['LOGNAME'], 'gufi_tmp')
+    parserForGwrap( ).parse_args()
     parserForGrprt( ).parse_args()
