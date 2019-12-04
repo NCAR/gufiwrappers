@@ -58,7 +58,7 @@ def executeGufiScriptOnServer( scriptfile ):
     """ 
     Execute script from Casper to GUFI server
     """ 
-    sshcmd = 'ssh -oHostBasedAuthentication=yes squall1.ucar.edu'
+    sshcmd = 'ssh -t -oHostBasedAuthentication=yes squall1.ucar.edu'
     fullcmd = ' '.join([sshcmd, scriptfile])
     os.system(fullcmd)
     
