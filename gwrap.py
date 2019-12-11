@@ -75,7 +75,9 @@ def parseCmdLine( ):
     Mainly the argparser stuff dumped in a single function
     """
     import cmdline as cmdl
-    gufitmp = os.path.join('/gpfs/fs1/scratch', os.environ['USER'], 'gufi_tmp')
+    import getpass
+    username = getpass.getuser()
+    gufitmp = os.path.join('/gpfs/fs1/scratch', username, 'gufi_tmp')
     cmdl.gufitmp = gufitmp
     parser = cmdl.parserForGwrap( )
     args = parser.parse_args()

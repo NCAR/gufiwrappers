@@ -104,6 +104,8 @@ def parserForGrprt( ):
 
 
 if __name__ == "__main__":
-    gufitmp = os.path.join('/gpfs/fs1/scratch', os.environ['USER'], 'gufi_tmp')
+    import getpass
+    username = getpass.getuser()
+    gufitmp = os.path.join('/gpfs/fs1/scratch', username, 'gufi_tmp')
     parserForGwrap( ).parse_args()
     parserForGrprt( ).parse_args()

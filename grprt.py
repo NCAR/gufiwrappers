@@ -33,7 +33,9 @@ def setFilterByPids( pids ):
 
 def parseCmdLine( ):
     import cmdline as cmdl
-    gufitmp = os.path.join('/gpfs/fs1/scratch', os.environ['USER'], 'gufi_tmp')
+    import getpass
+    username = getpass.getuser()
+    gufitmp = os.path.join('/gpfs/fs1/scratch', username, 'gufi_tmp')
     cmdl.gufitmp = gufitmp
     parser = cmdl.parserForGrprt( )
     args = parser.parse_args()
