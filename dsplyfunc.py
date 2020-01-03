@@ -87,6 +87,7 @@ def dumpHistByKey( results, keyid, fname ):
          keyname = str(uid)
       headw = keyname + '_w'
       headr = keyname + '_r'
-      tmpdf = pd.DataFrame( {headw: row['wHist'], headr: row['rHist']} )
+      headrw = keyname + '_rw'
+      tmpdf = pd.DataFrame( {headw: row['wHist'], headr: row['rHist'], headrw: row['rMinw']} )
       allhist = pd.concat([allhist,tmpdf],axis=1)
    allhist.to_csv( fname )

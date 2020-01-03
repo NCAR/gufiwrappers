@@ -1,5 +1,6 @@
 import numpy as np
 import timefuncs as tm
+import re
 
 fuidpid = []
 
@@ -37,6 +38,7 @@ def parseNfill( fl ):
             else:
                proj = 0
                fname = tmp[4]; path = tmp[5];
+            path = re.sub('/{2,}', '/', path)
             if atime < mtime:
                atime = mtime
             if not bool(fuidpid) or uid in fuidpid or proj in fuidpid:
@@ -62,7 +64,8 @@ def crEntry( ):
    """
    return {'size': 0.0, 'count': 0,
            'wHist': np.zeros(MAXHBINS),
-           'rHist': np.zeros(MAXHBINS)}
+           'rHist': np.zeros(MAXHBINS),
+           'rMinw': np.zeros(MAXHBINS)}
 
 
 def fillData( ref, size, uid, mtime, atime, proj, fname, path ):
@@ -77,6 +80,7 @@ def fillData( ref, size, uid, mtime, atime, proj, fname, path ):
    rhidx = tm.tsToYrMnIdx( atime )
    entry['wHist'][whidx] += size
    entry['rHist'][rhidx] += size
+   entry['rMinw'][rhidx-whidx] += size
 
 def dataByUids( ref, size, uid, mtime, atime, proj, fname, path ):
    """
