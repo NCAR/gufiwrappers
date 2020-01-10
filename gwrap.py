@@ -23,7 +23,14 @@ def writeGufiScript( gufitmp, guficmd ):
     return scrfile, scriptdir
 
 def conCatReport( cfiles, gufitmp, inputfields ):
+    """
+    If list option is given then this routine writes the output
+    """
     repfile, repdir = ol.getProcFilename( gufitmp, 'report' )
+    print("-"*80)
+    print("Writing output in file:")
+    print(repfile)
+    print("-"*80)
     with open(repfile, 'w') as wfh:
        for fl in cfiles:
           with open(fl, encoding = "ISO-8859-1") as fh:
