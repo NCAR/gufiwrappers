@@ -94,6 +94,7 @@ def parseCmdLine( ):
        checkListFields( fields )
     except:
        fields = None
+    storage = args.storage
     cachedir = os.path.join(gufitmp, 'raw')
     uids = gm.getUlist( args.fuids, 'users' )
     pids = gm.getUlist( args.projs, 'projects' )
@@ -114,11 +115,11 @@ def parseCmdLine( ):
        print('write-period: ',wp)
        print('read-period: ',rp)
        print('list mode:',lmode)
-    return verbosity, uids, pids, wp, wpname, rp, fields, inputdelim, gufitmp, cachedir, nthreads, gufitree
+    return verbosity, storage, uids, pids, wp, wpname, rp, fields, inputdelim, gufitmp, cachedir, nthreads, gufitree
 
 
 
-verbosity, uids, pids, wp, wpname, rp, fields, inputdelim, gufitmp, cachedir, nthreads, gufitree = parseCmdLine( )
+verbosity, storage, uids, pids, wp, wpname, rp, fields, inputdelim, gufitmp, cachedir, nthreads, gufitree = parseCmdLine( )
 
 errorfile, wdir = ol.getProcFilename( gufitmp, "logs" )
 sys.stderr = open(errorfile, 'a+')

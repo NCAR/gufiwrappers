@@ -25,6 +25,12 @@ Absolute path name to store the GUFI query output
 default: """ + gufitmp + """
  
     """)
+    parser.add_argument('--storage=', dest='storage', nargs=1, 
+                       metavar='project,campaign,hpss',default='project',
+             help="""
+Storage device where files are stored in.
+  
+    """)
     parser.add_argument('--list=', dest='listd', nargs=1, required=False, 
                        metavar='filename,size,owner,project,mtime,atime',
              help="""
@@ -111,6 +117,6 @@ if __name__ == "__main__":
     import getpass
     username = getpass.getuser()
     gufitmp = os.path.join('/gpfs/fs1/scratch', username, 'gufi_tmp')
-#   parserForGwrap( ).parse_args()
+    parserForGwrap( ).parse_args()
 #   parserForGrprt( ).parse_args()
-    parserForGplot( ).parse_args()
+#   parserForGplot( ).parse_args()
