@@ -131,5 +131,10 @@ if verbosity:
     print(guficmd)
 executeGufiScriptOnServer( scriptfile )
 cfiles = glob.glob(qg.getOutputFilename( cachedir, gufitree, remove=False ) + '.*' )
+print("-"*80)
+print("Wrting raw files in:")
+for i,cf in enumerate(cfiles):
+  print(i,cf)
+print("-"*80)
 if not fields == None:
     conCatReport( cfiles, gufitmp, fields )
