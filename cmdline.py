@@ -5,12 +5,12 @@ import os
 
 less_indent_formatter = lambda prog: argparse.RawTextHelpFormatter(prog, max_help_position=10)
 
-def parserForGwrap( ):
+def parserForGcache( ):
     """
     Mainly the argparser stuff dumped in a single function
     """
     global gufitmp
-    parser = argparse.ArgumentParser(prog='gwrap',description="""Generate Cache DB and optionally a filename list for 
+    parser = argparse.ArgumentParser(prog='gcahe',description="""Generate Cache DB and optionally a filename list for 
 a given filesystem tree querying GUFI DB.""",
              formatter_class=less_indent_formatter,
              epilog="""The results are stored under
@@ -117,6 +117,6 @@ if __name__ == "__main__":
     import getpass
     username = getpass.getuser()
     gufitmp = os.path.join('/gpfs/fs1/scratch', username, 'gufi_tmp')
-    parserForGwrap( ).parse_args()
+    parserForCache( ).parse_args()
 #   parserForGrprt( ).parse_args()
 #   parserForGplot( ).parse_args()

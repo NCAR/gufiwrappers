@@ -120,18 +120,26 @@ def getPid( pname ):
       return pname
 
 
-def fsnameToSearch( fsname ):
+def fsnameToSearch( storage, fsname ):
    """
    Maps filesystem/HPSS tree name to GUFI-tree name
    """
-   if   fsname.startswith('/gpfs/csfs1'): 
-      return '/search/campaign' + fsname[11:]
-   elif fsname.startswith('/glade/campaign'):
-      return '/search/campaign' + fsname[15:]
-   elif fsname.startswith('/gpfs/fs1/p'):
-      return '/search/p' + fsname[11:]
-   elif fsname.startswith('/glade/p'):
-      return '/search/p' + fsname[8:]
+   if storage.startswith('campaign'):
+      if   fsname.startswith('/gpfs/csfs1'): 
+         return '/search/campaign' + fsname[11:]
+      elif fsname.startswith('/glade/campaign'):
+         return '/search/campaign' + fsname[15:]
+      else:
+         print("The path ",fsname," in storage:",storage, " does not exist.. exiting!")
+         exit(-1)
+   elif storage.startswith('project'):
+      if   fsname.startswith('/gpfs/fs1/p'):
+         return '/search/p' + fsname[11:]
+      elif fsname.startswith('/glade/p'):
+         return '/search/p' + fsname[8:]
+      else:
+         print("The path ",fsname,"in storage:",storage, " does not exist.. exiting!")
+         exit(-1)
    else:
       return '/search/hpss' + fsname
 

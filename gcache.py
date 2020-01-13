@@ -65,9 +65,9 @@ def executeGufiScriptOnServer( scriptfile ):
     """ 
     Execute script from Casper to GUFI server
     """ 
-    sshcmd = 'ssh -t -oHostBasedAuthentication=yes squall1.ucar.edu'
-    fullcmd = ' '.join([sshcmd, scriptfile])
-    os.system(fullcmd)
+    import subprocess
+    sshcmd = ['ssh', '-t', '-oHostBasedAuthentication=yes', 'squall1.ucar.edu', scriptfile]
+    result = subprocess.run(sshcmd)
     
 def checkListFields( listfields ):
     validfields = ['filename', 'size', 'owner', 'project', 'mtime', 'atime']
@@ -86,7 +86,7 @@ def parseCmdLine( ):
     username = getpass.getuser()
     gufitmp = os.path.join('/gpfs/fs1/scratch', username, 'gufi_tmp')
     cmdl.gufitmp = gufitmp
-    parser = cmdl.parserForGwrap( )
+    parser = cmdl.parserForGcache( )
     args = parser.parse_args()
     gufitmp = args.gufitmp
     try:
@@ -94,7 +94,7 @@ def parseCmdLine( ):
        checkListFields( fields )
     except:
        fields = None
-    storage = args.storage
+    storage = args.storage[0]
     cachedir = os.path.join(gufitmp, 'raw')
     uids = gm.getUlist( args.fuids, 'users' )
     pids = gm.getUlist( args.projs, 'projects' )
@@ -102,7 +102,7 @@ def parseCmdLine( ):
     rp = tm.procPeriod( args.readp )
     nthreads = args.nthreads
     verbosity = args.verbosity
-    gufitree = gm.fsnameToSearch( args.treename )
+    gufitree = gm.fsnameToSearch( storage, args.treename )
     if gufitree.startswith('/search/hpss'):
        wpname = 'ctime'
     else:
@@ -115,11 +115,11 @@ def parseCmdLine( ):
        print('write-period: ',wp)
        print('read-period: ',rp)
        print('list mode:',lmode)
-    return verbosity, storage, uids, pids, wp, wpname, rp, fields, inputdelim, gufitmp, cachedir, nthreads, gufitree
+    return verbosity, uids, pids, wp, wpname, rp, fields, inputdelim, gufitmp, cachedir, nthreads, gufitree
 
 
 
-verbosity, storage, uids, pids, wp, wpname, rp, fields, inputdelim, gufitmp, cachedir, nthreads, gufitree = parseCmdLine( )
+verbosity, uids, pids, wp, wpname, rp, fields, inputdelim, gufitmp, cachedir, nthreads, gufitree = parseCmdLine( )
 
 errorfile, wdir = ol.getProcFilename( gufitmp, "logs" )
 sys.stderr = open(errorfile, 'a+')
@@ -128,14 +128,13 @@ print(sys.argv,file=sys.stderr)
 
 guficmd = qg.getGufiQryCmd( uids, pids, wp, wpname, rp, cachedir, nthreads, gufitree )
 scriptfile, scriptdir = writeGufiScript( gufitmp, guficmd )
+print("-"*80)
+print("Executing gufi command...writing cache files in:")
+print("  ",cachedir)    
+print("-"*80)
 if verbosity:
     print(guficmd)
 executeGufiScriptOnServer( scriptfile )
 cfiles = glob.glob(qg.getOutputFilename( cachedir, gufitree, remove=False ) + '.*' )
-print("-"*80)
-print("Wrting raw files in:")
-for i,cf in enumerate(cfiles):
-  print(i,cf)
-print("-"*80)
 if not fields == None:
     conCatReport( cfiles, gufitmp, fields )
