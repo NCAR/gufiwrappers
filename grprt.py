@@ -11,10 +11,24 @@ import querygen as qg
 import dsplyfunc as dpy
 import outputlocs as ol
 from multiprocessing import Pool
-from datetime import datetime
-import time
+import timefuncs as tm
 
 bdb.MAXHBINS = 1024  # Maximum histogram bins
+
+def setFilterBywp( fwp ):
+    """
+    sets the filter DB
+    """
+    bdb.fwp = fwp
+    bdb.fixWpRpList( )
+
+def setFilterByrp( frp ):
+    """
+    sets the filter DB
+    """
+    bdb.frp = frp
+    bdb.fixWpRpList( )
+    print(frp)
 
 def setFilterByUids( uids ):
     """
@@ -41,20 +55,27 @@ def parseCmdLine( ):
     args = parser.parse_args()
     gufitmp = args.gufitmp
     cachedir = os.path.join( gufitmp, 'raw' )
-    gufitree = gmap.fsnameToSearch( args.treename )
-    cfiles = glob.glob(qg.getOutputFilename( cachedir, gufitree, remove=False ) + '.*' )
+    fwp = tm.procPeriod( args.writep )
+    frp = tm.procPeriod( args.readp )
+    storage = args.storage[0]
+    gufitree = gmap.fsnameToSearch( storage, args.treename )
+    filen = qg.getOutputFilename( cachedir, gufitree, remove=False )
+    print("-"*80)
+    print("Using cache file(s).. ",filen + ".*")
+    cfiles = glob.glob(filen + '.*' )
     ncores = int(args.ncores)
     nsbins = int(args.nsbins)
-    return gufitmp, args.byusers, args.byprojects, args.subdirsof, args.fuids, \
-           args.fpids, cfiles, ncores, args.nsbins
+    return gufitmp, storage, args.byusers, args.byprojects, args.subdirsof, args.fuids, \
+           args.fpids, fwp, frp, cfiles, ncores, args.nsbins
 
 
 if __name__ == "__main__":
-    gufitmp, byusers, byprojects, subdirsof, fuids, fpids, \
-    cfiles, ncores, nsbins = parseCmdLine( )
+    gufitmp, storage, byusers, byprojects, subdirsof, fuids, fpids, \
+    fwp, frp, cfiles, ncores, nsbins = parseCmdLine( )
 
     errorfile, wdir = ol.getProcFilename( gufitmp, "log" )
     sys.stderr = open(errorfile, 'w')
+    print("Writing log file.. ",errorfile)
     print("The command line was: ",file=sys.stderr)
     print(sys.argv,file=sys.stderr)
     reportfile, wdir = ol.getProcFilename( gufitmp, "report" )
@@ -66,12 +87,18 @@ if __name__ == "__main__":
     if not fpids == None:
         setFilterByPids( fpids[0].split(',') )
 
+    if bool(fwp):
+        setFilterBywp( fwp )
+
+    if bool(frp):
+        setFilterByrp( frp )
+
     if byprojects:
        bdb.prefixdir = '/'
        activefunc = bdb.dataByProjs
        header = "Projs"
     elif subdirsof:
-       bdb.prefixdir = gmap.fsnameToSearch( subdirsof )
+       bdb.prefixdir = gmap.fsnameToSearch( storage, subdirsof )
        activefunc = bdb.dataBySubDirs
        header = "Subdirs"
     else:
@@ -80,10 +107,14 @@ if __name__ == "__main__":
        header = "Uname/Uids"
 
     res, total, basedir = bdb.getDataByFields(ncores, activefunc, cfiles )
+    print("-"*80)
+    print("Writing report file.. ",reportfile)
     dpy.displayDataByKey( res, total, basedir, nsbins, header, repfh )
     repfh.close()
 
     histfile, wdir = ol.getProcFilename( gufitmp, "hist" )
+    print("Writing histogram file.. ",histfile)
+    print("-"*80)
     dpy.dumpHistByKey( res, header, histfile )
 
     sys.stderr.close()

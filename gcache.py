@@ -122,15 +122,16 @@ def parseCmdLine( ):
 verbosity, uids, pids, wp, wpname, rp, fields, inputdelim, gufitmp, cachedir, nthreads, gufitree = parseCmdLine( )
 
 errorfile, wdir = ol.getProcFilename( gufitmp, "logs" )
+print("-"*80)
+print("Writing log file...", errorfile)
 sys.stderr = open(errorfile, 'a+')
 print("The command line was: ",file=sys.stderr)
 print(sys.argv,file=sys.stderr)
 
-guficmd = qg.getGufiQryCmd( uids, pids, wp, wpname, rp, cachedir, nthreads, gufitree )
+guficmd, filen = qg.getGufiQryCmd( uids, pids, wp, wpname, rp, cachedir, nthreads, gufitree )
 scriptfile, scriptdir = writeGufiScript( gufitmp, guficmd )
-print("-"*80)
 print("Executing gufi command...writing cache files in:")
-print("  ",cachedir)    
+print("  ",filen + ".*")    
 print("-"*80)
 if verbosity:
     print(guficmd)

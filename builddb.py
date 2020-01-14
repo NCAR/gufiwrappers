@@ -1,8 +1,24 @@
 import numpy as np
 import timefuncs as tm
 import re
+import time
 
 fuidpid = []
+fwp = []
+frp = []
+
+def fixWpRpList( ):
+   global fwp, frp
+   if bool(fwp):
+      if fwp[0] == -1:
+         fwp = 0
+      if fwp[1] == -1:
+         fwp = time.time()
+   if bool(frp):
+      if frp[0] == -1:
+         frp = 0
+      if frp[1] == -1:
+         frp = time.time()
 
 
 def largestMatch( x, y ):
@@ -19,7 +35,7 @@ def parseNfill( fl ):
    Core function scheduled / map using multiprocessing module
    """
    import sys
-   global activefunc, prefixdir, fuidpid
+   global activefunc, prefixdir, fuidpid, fwp, frp
    if len(prefixdir) > 1:
       basedir = prefixdir
    else:
@@ -41,6 +57,10 @@ def parseNfill( fl ):
             path = re.sub('/{2,}', '/', path)
             if atime < mtime:
                atime = mtime
+            if bool(fwp) and (mtime < fwp[0] or mtime > fwp[1]):
+               continue
+            if bool(frp) and (atime < frp[0] or atime > frp[1]):
+               continue
             if not bool(fuidpid) or uid in fuidpid or proj in fuidpid:
                if len(prefixdir) == 1:
                   if len(basedir) == 0:

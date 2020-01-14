@@ -90,4 +90,4 @@ def getGufiQryCmd( uids, pids, wp, wpname, rp, cachedir, nthreads, gufitree ):
     qry = getQryStr( uids, pids, wp, wpname, rp, fields )
     qryopt = '-E ' + qry
     fullcmd = ' '.join([cmd, opts, delimopt, nts, filopt, qryopt, gufitree])
-    return fullcmd
+    return fullcmd, filen
