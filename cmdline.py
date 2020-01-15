@@ -4,6 +4,7 @@ import argparse
 import os
 
 less_indent_formatter = lambda prog: argparse.RawTextHelpFormatter(prog, max_help_position=10)
+gufitmp = os.path.join('/gpfs/fs1/scratch', 'sghosh', 'gufi_tmp')
 
 def parserForGcache( ):
     """
