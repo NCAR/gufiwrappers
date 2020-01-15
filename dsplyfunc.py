@@ -18,7 +18,7 @@ def displayHeaders( nh, keyid, basedir, repfh ):
    print("%5s " % "Cum-%", end=" ", file=repfh)
    print("%-9s  " % "Count", end=" ", file=repfh)
    for i in range(nh):
-      f = 100.0*float(i+1)/nh
+      f = 100.0*float(i)/nh
       print("%4.1f " % f, end=" ", file=repfh)
    print("%-8s " % keyid, file=repfh)
    prtOneCharLine( "-", (43+nh*6), repfh )
