@@ -66,7 +66,7 @@ def executeGufiScriptOnServer( scriptfile ):
     Execute script from Casper to GUFI server
     """ 
     import subprocess
-    sshcmd = ['ssh', '-t', '-oHostBasedAuthentication=yes', 'squall.ucar.edu', scriptfile]
+    sshcmd = ['ssh', '-t', '-oHostBasedAuthentication=yes', 'squall1.ucar.edu', scriptfile]
     result = subprocess.run(sshcmd)
     
 def checkListFields( listfields ):
