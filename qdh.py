@@ -26,30 +26,22 @@ def getCfiles4Tree( treename ):
     return glob.glob(filen + '.*' )
 
 def parseCmdLine( ):
+    global parsedata
     username = getpass.getuser()
     gufitmp = os.path.join('/gpfs/fs1/scratch', username, 'gufi_tmp')
     cmdl.gufitmp = gufitmp
     parser = cmdl.parserForQdh( )
     args = parser.parse_args()
-    parsedata['gufitmp'] = args.gufitmp
-    parsedata['verbosity'] = args.verbosity
-    parsedata['cachedir'] = os.path.join( gufitmp, 'raw' )
-    parsedata['uids'] = args.fuids
-    parsedata['pids'] = args.fpids
-    parsedata['writep'] = tm.procPeriod( args.writep )
-    parsedata['readp'] = tm.procPeriod( args.readp )
-    parsedata['storage'] = args.storage[0]
-    parsedata['treename'] = args.treename
-    parsedata['ncores'] = int(args.ncores)
-    parsedata['nsbins'] = int(args.nsbins)
     try:
        fields = args.listd[0].split(',')
        checkListFields( fields )
     except:
        fields = None
-    parsedata['fields'] = fields
+    parsedata = {'gufitmp':args.gufitmp, 'verbosity':args.verbosity, 'cachedir':os.path.join(gufitmp, 'raw'),
+         'uids':args.fuids, 'pids':args.fpids, 'writep':tm.procPeriod( args.writep ),
+         'readp':tm.procPeriod( args.readp ), 'storage':args.storage[0], 'treename':args.treename,
+         'ncores':int(args.ncores), 'nsbins':int(args.nsbins), 'fields':fields} 
     
-
 
 
 
