@@ -171,24 +171,22 @@ def parserForQdh( ):
 """ + gufitmp + """
 
 """)
+    parser.add_argument('--verbose','-v',dest='verbosity', 
+             action='store_true', help="""Adds verbosity
+
+    """)
     parser.add_argument('--storage=', dest='storage', nargs=1, 
                        metavar='project,campaign,hpss',default='project',
              help="""Storage device where files are stored in.
   
     """)
-    grprprtby = parser.add_mutually_exclusive_group(required=False)
-    grprprtby.add_argument('--by-users', dest='byusers', action='store_true',
-                       help="""report by user-name / user-ids (if mapping not found)
-
-""")
-    grprprtby.add_argument('--by-projects', dest='byprojects', action='store_true',
-                       help="""report by project-name / project-id (if mapping not found) HPSS only
-
-""")
-    grprprtby.add_argument('--by-subdirs-of=', dest='subdirsof',  metavar='[Parent directory]',
-                       help="""report by subdirectories of this parent directory
-
-""")
+    parser.add_argument('--list=', dest='listd', nargs=1, required=False,
+                       metavar='filename,size,owner,project,mtime,atime',
+             help="""Generate list of files with one or more of the attributes
+from filename, size, owner, project, mtime, atime in order as
+specified delimited by comma(,).  
+  
+    """)
     parser.add_argument('--filter-by-users=', dest='fuids', nargs='+', metavar='[User1,User2,..]',
                     help="""Report only for User1[,User2]..
 
@@ -197,7 +195,7 @@ def parserForQdh( ):
                     help="""Report only for Project1[,Project2]..
 
 """)
-    parser.add_argument('--write-period=', dest='writep', metavar='YYYY[MM[DD]]-YYYY[MM[DD]]',
+    parser.add_argument('--filter-by-write-period=', dest='writep', metavar='YYYY[MM[DD]]-YYYY[MM[DD]]',
              help="""for content written during the time window YYYY[MM[DD]]-YYYY[MM[DD]]
 either of begin or end period may be omitted for open interval. Here
 is how it will be interpreted:
@@ -209,7 +207,7 @@ For time specification 4-digit year is required (implies 01 month and
 2-digit day may be specified.
 
              """)
-    parser.add_argument('--read-period=', dest='readp',  metavar='YYYY[MM[DD]]-YYYY[MM[DD]]',
+    parser.add_argument('--filter-by-read-period=', dest='readp',  metavar='YYYY[MM[DD]]-YYYY[MM[DD]]',
              help="""for content read during time the window YYYY[MM[DD]]-YYYY[MM[DD]]
 either of begin or end period may be omitted for open interval. Here
 is how it will be interpreted:
@@ -221,6 +219,19 @@ For time specification 4-digit year is required (implies 01 month and
 2-digit day may be specified.
 
              """)
+    grprprtby = parser.add_mutually_exclusive_group(required=False)
+    grprprtby.add_argument('--report-by-users', dest='byusers', action='store_true',
+                       help="""report by user-name / user-ids (if mapping not found)
+
+""")
+    grprprtby.add_argument('--report-by-projects', dest='byprojects', action='store_true',
+                       help="""report by project-name / project-id (if mapping not found) HPSS only
+
+""")
+    grprprtby.add_argument('--report-by-subdirs-of=', dest='subdirsof',  metavar='[Parent directory]',
+                       help="""report by subdirectories of this parent directory
+
+""")
     parser.add_argument('--nthreads', dest='ncores', default=1, metavar='number-of-cores or processes',
                       help="""Number of cores / threads to run
 
@@ -229,7 +240,8 @@ For time specification 4-digit year is required (implies 01 month and
                        help="""Number of write / read stat histogram bins in report
 
 """)
-    parser.add_argument(dest='treename', help="""Absolute path of the filesystem tree located \
+    parser.add_argument('--directory', dest='treename', metavar='directory name to query',
+    help="""Absolute path of the filesystem tree located \
 either in glade, campaign or HPSS
 
 """)

@@ -84,7 +84,8 @@ def getGufiQryCmd( uids, pids, wp, wpname, rp, cachedir, nthreads, gufitree ):
     cmd = 'gufi_query'
     opts = '-P -p -e 1'
     delimopt = '-d x'
-    nts = '-n ' + str(nthreads)
+#   nts = '-n ' + str(nthreads)
+    nts = '-n ' + '40'
     filen = getOutputFilename( cachedir, gufitree )
     filopt = '-o ' + filen
     qry = getQryStr( uids, pids, wp, wpname, rp, fields )

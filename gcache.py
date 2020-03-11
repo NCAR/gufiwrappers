@@ -66,7 +66,7 @@ def executeGufiScriptOnServer( scriptfile ):
     Execute script from Casper to GUFI server
     """ 
     import subprocess
-    sshcmd = ['ssh', '-t', '-oHostBasedAuthentication=yes', 'squall1.ucar.edu', scriptfile]
+    sshcmd = ['ssh', '-t', '-oHostBasedAuthentication=yes', 'squall.ucar.edu', scriptfile]
     result = subprocess.run(sshcmd)
     
 def checkListFields( listfields ):
@@ -77,65 +77,82 @@ def checkListFields( listfields ):
            exit(-1)
     return True
 
-def parseCmdLine( ):
-    """
-    Mainly the argparser stuff dumped in a single function
-    """
-    import cmdline as cmdl
-    import getpass
-    username = getpass.getuser()
-    gufitmp = os.path.join('/gpfs/fs1/scratch', username, 'gufi_tmp')
-    cmdl.gufitmp = gufitmp
-    parser = cmdl.parserForGcache( )
-    args = parser.parse_args()
-    gufitmp = args.gufitmp
-    try:
-       fields = args.listd[0].split(',')
-       checkListFields( fields )
-    except:
-       fields = None
-    storage = args.storage[0]
-    cachedir = os.path.join(gufitmp, 'raw')
-    uids = gm.getUlist( args.fuids, 'users' )
-    pids = gm.getUlist( args.projs, 'projects' )
-    wp = tm.procPeriod( args.writep )
-    rp = tm.procPeriod( args.readp )
-    nthreads = args.nthreads
-    verbosity = args.verbosity
-    gufitree = gm.fsnameToSearch( storage, args.treename )
-    if gufitree.startswith('/search/hpss'):
+#def parseCmdLine( ):
+#    """
+##    Mainly the argparser stuff dumped in a single function
+#    """
+#    import cmdline as cmdl
+#    import getpass
+#    username = getpass.getuser()
+#    gufitmp = os.path.join('/gpfs/fs1/scratch', username, 'gufi_tmp')
+#    cmdl.gufitmp = gufitmp
+#    parser = cmdl.parserForGcache( )
+#    args = parser.parse_args()
+#    gufitmp = args.gufitmp
+#    try:
+#       fields = args.listd[0].split(',')
+#       checkListFields( fields )
+##    except:
+##       fields = None
+#    storage = args.storage[0]
+#    cachedir = os.path.join(gufitmp, 'raw')
+#    uids = gm.getUlist( args.fuids, 'users' )
+#    pids = gm.getUlist( args.projs, 'projects' )
+#    wp = tm.procPeriod( args.writep )
+#    rp = tm.procPeriod( args.readp )
+#    nthreads = args.nthreads
+#    verbosity = args.verbosity
+#    gufitree = gm.fsnameToSearch( storage, args.treename )
+#    if gufitree.startswith('/search/hpss'):
+#       wpname = 'ctime'
+#    else:
+#       wpname = 'mtime'
+#    inputdelim = ','
+#    if verbosity:
+#       print('Using cachedir: ',cachedir)
+#       print('users: ',uids)
+#       print('projects: ',pids)
+#       print('write-period: ',wp)
+#       print('read-period: ',rp)
+#       print('list mode:',lmode)
+#    return verbosity, uids, pids, wp, wpname, rp, fields, inputdelim, gufitmp, cachedir, nthreads, gufitree
+
+
+
+#verbosity, uids, pids, wp, wpname, rp, fields, inputdelim, gufitmp, cachedir, nthreads, gufitree = parseCmdLine( )
+def driver( parsedata ):
+    verbosity = parsedata['verbosity']
+    uids = parsedata['uids'] 
+    pids = parsedata['pids'] 
+    wp = parsedata['writep'] 
+    rp = parsedata['readp'] 
+    storage = parsedata['storage']
+    if storage.startswith('hpss'):
        wpname = 'ctime'
     else:
        wpname = 'mtime'
+    fields = parsedata['fields']
     inputdelim = ','
+    gufitmp = parsedata['gufitmp']
+    cachedir = parsedata['cachedir']
+    nthreads = parsedata['ncores']
+    gufitree = gm.fsnameToSearch( storage, parsedata['treename'] )
+
+    errorfile, wdir = ol.getProcFilename( gufitmp, "logs" )
+    print("-"*80)
+    print("Writing log file...", errorfile)
+    sys.stderr = open(errorfile, 'a+')
+    print("The command line was: ",file=sys.stderr)
+    print(sys.argv,file=sys.stderr)
+
+    guficmd, filen = qg.getGufiQryCmd( uids, pids, wp, wpname, rp, cachedir, nthreads, gufitree )
+    scriptfile, scriptdir = writeGufiScript( gufitmp, guficmd )
+    print("Executing gufi command...writing cache files in:")
+    print("  ",filen + ".*")    
+    print("-"*80)
     if verbosity:
-       print('Using cachedir: ',cachedir)
-       print('users: ',uids)
-       print('projects: ',pids)
-       print('write-period: ',wp)
-       print('read-period: ',rp)
-       print('list mode:',lmode)
-    return verbosity, uids, pids, wp, wpname, rp, fields, inputdelim, gufitmp, cachedir, nthreads, gufitree
-
-
-
-verbosity, uids, pids, wp, wpname, rp, fields, inputdelim, gufitmp, cachedir, nthreads, gufitree = parseCmdLine( )
-
-errorfile, wdir = ol.getProcFilename( gufitmp, "logs" )
-print("-"*80)
-print("Writing log file...", errorfile)
-sys.stderr = open(errorfile, 'a+')
-print("The command line was: ",file=sys.stderr)
-print(sys.argv,file=sys.stderr)
-
-guficmd, filen = qg.getGufiQryCmd( uids, pids, wp, wpname, rp, cachedir, nthreads, gufitree )
-scriptfile, scriptdir = writeGufiScript( gufitmp, guficmd )
-print("Executing gufi command...writing cache files in:")
-print("  ",filen + ".*")    
-print("-"*80)
-if verbosity:
-    print(guficmd)
-executeGufiScriptOnServer( scriptfile )
-cfiles = glob.glob(qg.getOutputFilename( cachedir, gufitree, remove=False ) + '.*' )
-if not fields == None:
-    conCatReport( cfiles, gufitmp, fields )
+        print(guficmd)
+    executeGufiScriptOnServer( scriptfile )
+    cfiles = glob.glob(qg.getOutputFilename( cachedir, gufitree, remove=False ) + '.*' )
+    if not fields == None:
+        conCatReport( cfiles, gufitmp, fields )

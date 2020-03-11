@@ -3,6 +3,27 @@
 import os
 import getpass
 import cmdline as cmdl
+import glob
+import gcache
+import timefuncs as tm
+
+parsedata = {}
+
+def checkListFields( listfields ):
+    validfields = ['filename', 'size', 'owner', 'project', 'mtime', 'atime']
+    for ent in listfields:
+       if ent not in validfields:
+           print("The field ",ent," not valid, the list of valid field is: ", validfields)
+           exit(-1)
+    return True
+
+
+def getCfiles4Tree( treename ):
+    print("-"*80)
+    print("Using cache file(s).. ",filen + ".*")
+    gufitree = gmap.fsnameToSearch( storage, treename )
+    filen = qg.getOutputFilename( cachedir, gufitree, remove=False )
+    return glob.glob(filen + '.*' )
 
 def parseCmdLine( ):
     username = getpass.getuser()
@@ -10,25 +31,30 @@ def parseCmdLine( ):
     cmdl.gufitmp = gufitmp
     parser = cmdl.parserForQdh( )
     args = parser.parse_args()
-    gufitmp = args.gufitmp
-    cachedir = os.path.join( gufitmp, 'raw' )
-    fwp = tm.procPeriod( args.writep )
-    frp = tm.procPeriod( args.readp )
-    storage = args.storage[0]
-    gufitree = gmap.fsnameToSearch( storage, args.treename )
-    filen = qg.getOutputFilename( cachedir, gufitree, remove=False )
-    print("-"*80)
-    print("Using cache file(s).. ",filen + ".*")
-    cfiles = glob.glob(filen + '.*' )
-    ncores = int(args.ncores)
-    nsbins = int(args.nsbins)
-    return gufitmp, storage, args.byusers, args.byprojects, args.subdirsof, args.fuids, \
-           args.fpids, fwp, frp, cfiles, ncores, args.nsbins
+    parsedata['gufitmp'] = args.gufitmp
+    parsedata['verbosity'] = args.verbosity
+    parsedata['cachedir'] = os.path.join( gufitmp, 'raw' )
+    parsedata['uids'] = args.fuids
+    parsedata['pids'] = args.fpids
+    parsedata['writep'] = tm.procPeriod( args.writep )
+    parsedata['readp'] = tm.procPeriod( args.readp )
+    parsedata['storage'] = args.storage[0]
+    parsedata['treename'] = args.treename
+    parsedata['ncores'] = int(args.ncores)
+    parsedata['nsbins'] = int(args.nsbins)
+    try:
+       fields = args.listd[0].split(',')
+       checkListFields( fields )
+    except:
+       fields = None
+    parsedata['fields'] = fields
+    
+
 
 
 
 
 
 if __name__ == "__main__":
-    gufitmp, storage, byusers, byprojects, subdirsof, fuids, fpids, \
-    fwp, frp, cfiles, ncores, nsbins = parseCmdLine( )
+    parseCmdLine( )
+    gcache.driver( parsedata )
