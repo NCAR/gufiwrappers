@@ -5,6 +5,7 @@ import getpass
 import cmdline as cmdl
 import glob
 import gcache
+import grprt
 import timefuncs as tm
 
 parsedata = {}
@@ -40,6 +41,7 @@ def parseCmdLine( ):
     parsedata = {'gufitmp':args.gufitmp, 'verbosity':args.verbosity, 'cachedir':os.path.join(gufitmp, 'raw'),
          'uids':args.fuids, 'pids':args.fpids, 'writep':tm.procPeriod( args.writep ),
          'readp':tm.procPeriod( args.readp ), 'storage':args.storage[0], 'treename':args.treename,
+         'byusers':args.byusers, 'byprojects':args.byprojects, 'bysubdirsof':args.subdirsof,
          'ncores':int(args.ncores), 'nsbins':int(args.nsbins), 'fields':fields} 
     
 
@@ -49,4 +51,5 @@ def parseCmdLine( ):
 
 if __name__ == "__main__":
     parseCmdLine( )
-    gcache.driver( parsedata )
+#   gcache.driver( parsedata )
+    grprt.driver( parsedata )

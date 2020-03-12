@@ -45,33 +45,48 @@ def setFilterByPids( pids ):
        bdb.fuidpid.append( gmap.getPid( pid )) 
 
 
-def parseCmdLine( ):
-    import cmdline as cmdl
-    import getpass
-    username = getpass.getuser()
-    gufitmp = os.path.join('/gpfs/fs1/scratch', username, 'gufi_tmp')
-    cmdl.gufitmp = gufitmp
-    parser = cmdl.parserForGrprt( )
-    args = parser.parse_args()
-    gufitmp = args.gufitmp
+#def parseCmdLine( ):
+#    import cmdline as cmdl
+#    import getpass
+#    username = getpass.getuser()
+#    gufitmp = os.path.join('/gpfs/fs1/scratch', username, 'gufi_tmp')
+#    cmdl.gufitmp = gufitmp
+#    parser = cmdl.parserForGrprt( )
+#    args = parser.parse_args()
+#    gufitmp = args.gufitmp
+#    cachedir = os.path.join( gufitmp, 'raw' )
+#    fwp = tm.procPeriod( args.writep )
+#    frp = tm.procPeriod( args.readp )
+#    storage = args.storage[0]
+#    gufitree = gmap.fsnameToSearch( storage, args.treename )
+#    filen = qg.getOutputFilename( cachedir, gufitree, remove=False )
+#    print("-"*80)
+#    print("Using cache file(s).. ",filen + ".*")
+#    cfiles = glob.glob(filen + '.*' )
+#    ncores = int(args.ncores)
+#    nsbins = int(args.nsbins)
+#    return gufitmp, storage, args.byusers, args.byprojects, args.subdirsof, args.fuids, \
+#           args.fpids, fwp, frp, cfiles, ncores, args.nsbins
+
+
+def getCfiles( gufitmp, storage, treename ):
+    """
+    returns the list of cachefiles to be used as input for the report
+    """
+    gufitree = gmap.fsnameToSearch( storage, treename )
     cachedir = os.path.join( gufitmp, 'raw' )
-    fwp = tm.procPeriod( args.writep )
-    frp = tm.procPeriod( args.readp )
-    storage = args.storage[0]
-    gufitree = gmap.fsnameToSearch( storage, args.treename )
     filen = qg.getOutputFilename( cachedir, gufitree, remove=False )
     print("-"*80)
     print("Using cache file(s).. ",filen + ".*")
-    cfiles = glob.glob(filen + '.*' )
-    ncores = int(args.ncores)
-    nsbins = int(args.nsbins)
-    return gufitmp, storage, args.byusers, args.byprojects, args.subdirsof, args.fuids, \
-           args.fpids, fwp, frp, cfiles, ncores, args.nsbins
+    return glob.glob(filen + '.*' )
 
 
-if __name__ == "__main__":
-    gufitmp, storage, byusers, byprojects, subdirsof, fuids, fpids, \
-    fwp, frp, cfiles, ncores, nsbins = parseCmdLine( )
+def driver( parsedata ):
+    gufitmp = parsedata['gufitmp']; storage = parsedata['storage']; byusers = parsedata['uids']
+    byprojects = parsedata['pids']; subdirsof = parsedata['bysubdirsof']; fuids = parsedata['uids']
+    fpids = parsedata['pids']; fwp = parsedata['writep']; frp = parsedata['readp']
+    ncores = parsedata['ncores']; nsbins = parsedata['nsbins']; treename = parsedata['treename']
+    cfiles = getCfiles( gufitmp, storage, treename )
 
     errorfile, wdir = ol.getProcFilename( gufitmp, "log" )
     sys.stderr = open(errorfile, 'w')
