@@ -187,11 +187,11 @@ from filename, size, owner, project, mtime, atime in order as
 specified delimited by comma(,).  
   
     """)
-    parser.add_argument('--filter-by-users=', dest='fuids', nargs='+', metavar='[User1,User2,..]',
+    parser.add_argument('--filter-by-users=', dest='fuids', nargs='+', metavar='User1,User2',
                     help="""Report only for User1[,User2]..
 
 """)
-    parser.add_argument('--filter-by-projects=', dest='fpids', nargs='+', metavar='[Project1,Project2,..]',
+    parser.add_argument('--filter-by-projects=', dest='fpids', nargs='+', metavar='Project1,Project2',
                     help="""Report only for Project1[,Project2]..
 
 """)

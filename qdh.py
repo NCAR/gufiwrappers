@@ -39,17 +39,12 @@ def parseCmdLine( ):
     except:
        fields = None
     parsedata = {'gufitmp':args.gufitmp, 'verbosity':args.verbosity, 'cachedir':os.path.join(gufitmp, 'raw'),
-         'uids':args.fuids, 'pids':args.fpids, 'writep':tm.procPeriod( args.writep ),
+         'fuids':args.fuids, 'fpids':args.fpids, 'writep':tm.procPeriod( args.writep ),
          'readp':tm.procPeriod( args.readp ), 'storage':args.storage[0], 'treename':args.treename,
          'byusers':args.byusers, 'byprojects':args.byprojects, 'bysubdirsof':args.subdirsof,
          'ncores':int(args.ncores), 'nsbins':int(args.nsbins), 'fields':fields} 
     
-
-
-
-
-
 if __name__ == "__main__":
     parseCmdLine( )
-#   gcache.driver( parsedata )
-    grprt.driver( parsedata )
+    gcache.driver( parsedata )
+#   grprt.driver( parsedata )

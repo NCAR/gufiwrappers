@@ -42,10 +42,10 @@ def conCatReport( cfiles, gufitmp, inputfields ):
                    mtime = int(tmp[2]); atime = int(tmp[3]);
                    if len(tmp) > 7:
                       proj = gm.getPname( int(tmp[4]) ); 
-                      fullname = '/'.join([gm.searchToFsName(tmp[6]),tmp[5]])
+                      fullname = '/'.join([tmp[6][7:],tmp[5]])
                    else:
                       proj = 'NULL'; 
-                      fullname = '/'.join([gm.searchToFsName(tmp[5]),tmp[4]])
+                      fullname = '/'.join([tmp[5][7:],tmp[4]])
                    if atime < mtime:
                       atime = mtime
                    fdict = {'filename':fullname, 'size':str(size), 'owner':gm.getUname( uid ),
@@ -66,10 +66,13 @@ def executeGufiScriptOnServer( scriptfile ):
     Execute script from Casper to GUFI server
     """ 
     import subprocess
-    sshcmd = ['ssh', '-t', '-oHostBasedAuthentication=yes', 'squall1.ucar.edu', scriptfile]
+    sshcmd = ['ssh', '-t', '-oHostBasedAuthentication=yes', 'squall.ucar.edu', scriptfile]
     result = subprocess.run(sshcmd)
     
 def checkListFields( listfields ):
+    """ 
+    Checks if the list of items requested is valid
+    """ 
     validfields = ['filename', 'size', 'owner', 'project', 'mtime', 'atime']
     for ent in listfields:
        if ent not in validfields:
@@ -77,53 +80,15 @@ def checkListFields( listfields ):
            exit(-1)
     return True
 
-#def parseCmdLine( ):
-#    """
-##    Mainly the argparser stuff dumped in a single function
-#    """
-#    import cmdline as cmdl
-#    import getpass
-#    username = getpass.getuser()
-#    gufitmp = os.path.join('/gpfs/fs1/scratch', username, 'gufi_tmp')
-#    cmdl.gufitmp = gufitmp
-#    parser = cmdl.parserForGcache( )
-#    args = parser.parse_args()
-#    gufitmp = args.gufitmp
-#    try:
-#       fields = args.listd[0].split(',')
-#       checkListFields( fields )
-##    except:
-##       fields = None
-#    storage = args.storage[0]
-#    cachedir = os.path.join(gufitmp, 'raw')
-#    uids = gm.getUlist( args.fuids, 'users' )
-#    pids = gm.getUlist( args.projs, 'projects' )
-#    wp = tm.procPeriod( args.writep )
-#    rp = tm.procPeriod( args.readp )
-#    nthreads = args.nthreads
-#    verbosity = args.verbosity
-#    gufitree = gm.fsnameToSearch( storage, args.treename )
-#    if gufitree.startswith('/search/hpss'):
-#       wpname = 'ctime'
-#    else:
-#       wpname = 'mtime'
-#    inputdelim = ','
-#    if verbosity:
-#       print('Using cachedir: ',cachedir)
-#       print('users: ',uids)
-#       print('projects: ',pids)
-#       print('write-period: ',wp)
-#       print('read-period: ',rp)
-#       print('list mode:',lmode)
-#    return verbosity, uids, pids, wp, wpname, rp, fields, inputdelim, gufitmp, cachedir, nthreads, gufitree
 
-
-
-#verbosity, uids, pids, wp, wpname, rp, fields, inputdelim, gufitmp, cachedir, nthreads, gufitree = parseCmdLine( )
 def driver( parsedata ):
+    """
+    The main driver, caches the data querying gufi_query and optionally
+    producing a flat list of files.
+    """
     verbosity = parsedata['verbosity']
-    uids = parsedata['uids'] 
-    pids = parsedata['pids'] 
+    fuids = gm.getUlist( parsedata['fuids'], 'users' )
+    fpids = gm.getUlist( parsedata['fpids'], 'projects' )
     wp = parsedata['writep'] 
     rp = parsedata['readp'] 
     storage = parsedata['storage']
@@ -145,7 +110,7 @@ def driver( parsedata ):
     print("The command line was: ",file=sys.stderr)
     print(sys.argv,file=sys.stderr)
 
-    guficmd, filen = qg.getGufiQryCmd( uids, pids, wp, wpname, rp, cachedir, nthreads, gufitree )
+    guficmd, filen = qg.getGufiQryCmd( fuids, fpids, wp, wpname, rp, cachedir, nthreads, gufitree )
     scriptfile, scriptdir = writeGufiScript( gufitmp, guficmd )
     print("Executing gufi command...writing cache files in:")
     print("  ",filen + ".*")    
