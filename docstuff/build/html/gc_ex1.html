@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>List files owned by a user stored in any directory under HPSS &#8212; gufiwrappers  documentation</title>
+    <title>List files owned by a user stored in any directory under HPSS &#8212; qdh  documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -17,7 +17,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="List files owned by a user and written between year 2010 and 2015" href="gc_ex2.html" />
-    <link rel="prev" title="gcache" href="gcache.html" /> 
+    <link rel="prev" title="qdh" href="qdh.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -29,10 +29,10 @@
           <a href="gc_ex2.html" title="List files owned by a user and written between year 2010 and 2015"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="gcache.html" title="gcache"
+          <a href="qdh.html" title="qdh"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">gufiwrappers  documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="gcache.html" accesskey="U">gcache</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">qdh  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="qdh.html" accesskey="U">qdh</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -57,9 +57,9 @@
 <ol class="arabic simple">
 <li><p>login to casper</p></li>
 <li><p>module load gufiwrappers</p></li>
-<li><p><strong>gcache –list=project,size,filename –owners=xyz123 /</strong></p></li>
+<li><p><strong>qdh –list=project,size,filename –owners=xyz123 /</strong></p></li>
 </ol>
-<p>The above command will run GUFI query in <strong>squall1</strong> and generate the
+<p>The above command will run GUFI query in <strong>squall</strong> and generate the
 filelist with date-time-stamped filename as:</p>
 <p>/glade/scratch/&lt;user-name&gt;/gufi_tmp/reports/rep_ccYYmmdd_HHMMss.dat</p>
 <p>where,</p>
@@ -73,12 +73,12 @@ filelist with date-time-stamped filename as:</p>
 <li><p>ss is 2 digit second (0..59)</p></li>
 </ol>
 <p>The first few lines may appear as:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">315566080</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">icess_cam_waccm_code</span><span class="o">.</span><span class="n">tar</span>
-<span class="mi">1575905280</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">icess_cam_waccm_data</span><span class="o">.</span><span class="n">tar</span>
-<span class="mi">20480</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">memmon</span><span class="o">.</span><span class="n">tar</span>
-<span class="mi">2193511124</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">oliker</span><span class="o">.</span><span class="n">tgz</span>
-<span class="mi">1374496</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">vim74</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">idx</span>
-<span class="mi">116719</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">//</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test4</span><span class="o">/</span><span class="n">test5</span><span class="o">/</span><span class="n">ts</span><span class="o">.</span><span class="n">jpg</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">315566080</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">icess_cam_waccm_code</span><span class="o">.</span><span class="n">tar</span>
+<span class="mi">1575905280</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">icess_cam_waccm_data</span><span class="o">.</span><span class="n">tar</span>
+<span class="mi">20480</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">memmon</span><span class="o">.</span><span class="n">tar</span>
+<span class="mi">2193511124</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">oliker</span><span class="o">.</span><span class="n">tgz</span>
+<span class="mi">1374496</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">vim74</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">idx</span>
+<span class="mi">116719</span><span class="p">,</span><span class="n">SCSG0001</span><span class="p">,</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">xyz123</span><span class="o">/</span><span class="n">test4</span><span class="o">/</span><span class="n">test5</span><span class="o">/</span><span class="n">ts</span><span class="o">.</span><span class="n">jpg</span>
 <span class="p">:</span>
 <span class="p">:</span>
 </pre></div>
@@ -102,8 +102,8 @@ Please post any bugs, feedbacks, comments or feature requests
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="gcache.html"
-                        title="previous chapter">gcache</a></p>
+  <p class="topless"><a href="qdh.html"
+                        title="previous chapter">qdh</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="gc_ex2.html"
                         title="next chapter">List files owned by a user and written between year 2010 and 2015</a></p>
@@ -138,14 +138,14 @@ Please post any bugs, feedbacks, comments or feature requests
           <a href="gc_ex2.html" title="List files owned by a user and written between year 2010 and 2015"
              >next</a> |</li>
         <li class="right" >
-          <a href="gcache.html" title="gcache"
+          <a href="qdh.html" title="qdh"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">gufiwrappers  documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="gcache.html" >gcache</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">qdh  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="qdh.html" >qdh</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2019, Sidd.
+        &#169; Copyright 2020, Sidd.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>

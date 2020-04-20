@@ -15,9 +15,9 @@ in comma separated format with one file per line then:
 
 #. login to casper
 #. module load gufiwrappers
-#. **gcache --list=project,size,filename --owners=xyz123 /**
+#. **qdh --list=project,size,filename --owners=xyz123 /**
 
-The above command will run GUFI query in **squall1** and generate the
+The above command will run GUFI query in **squall** and generate the
 filelist with date-time-stamped filename as:
 
 /glade/scratch/<user-name>/gufi_tmp/reports/rep_ccYYmmdd_HHMMss.dat
@@ -34,12 +34,12 @@ where,
 
 The first few lines may appear as::
 
-    315566080,SCSG0001,//home/xyz123/test/icess_cam_waccm_code.tar
-    1575905280,SCSG0001,//home/xyz123/test/icess_cam_waccm_data.tar
-    20480,SCSG0001,//home/xyz123/test/memmon.tar
-    2193511124,SCSG0001,//home/xyz123/test/oliker.tgz
-    1374496,SCSG0001,//home/xyz123/test/vim74.tar.idx
-    116719,SCSG0001,//home/xyz123/test4/test5/ts.jpg
+    315566080,SCSG0001,/home/xyz123/test/icess_cam_waccm_code.tar
+    1575905280,SCSG0001,/home/xyz123/test/icess_cam_waccm_data.tar
+    20480,SCSG0001,/home/xyz123/test/memmon.tar
+    2193511124,SCSG0001,/home/xyz123/test/oliker.tgz
+    1374496,SCSG0001,/home/xyz123/test/vim74.tar.idx
+    116719,SCSG0001,/home/xyz123/test4/test5/ts.jpg
     :
     :
 

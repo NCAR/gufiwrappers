@@ -10,15 +10,15 @@ In order to use this tool do the following:
 
 #. ssh to **casper.ucar.edu** (or execdav from cheyenne login nodes)
 #. load gufiwrappers module *module load gufiwrappers*
-#. run :doc:`qdh </qdh` (with appropriate options)
+#. run :doc:`qdh </qdh>` (with appropriate options)
 #. optionally run gplot (work in progress) to produce graphical reports
 
-The :doc:`qdh </qdh` spawns GUFI query to **squall** and stores 
+The :doc:`qdh </qdh>` spawns GUFI query to **squall** and stores 
 the output into <gufi_tmp> tree and then generates more useful
 statitics. The gplot will generate graphical representation of some
 of these statistics.
 
-#. :doc:`qdh </qdh`
+#. :doc:`qdh </qdh>`
 #. gplot
 
 .. include:: footer.txt
