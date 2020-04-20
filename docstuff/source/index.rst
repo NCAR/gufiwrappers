@@ -21,7 +21,6 @@ of these statistics.
 #. :doc:`qdh </qdh>`
 #. gplot
 
-.. include:: footer.txt
 
 .. toctree::
    :maxdepth: 2
@@ -36,3 +35,5 @@ Indices and tables
 
 * :ref:`genindex`
 * :ref:`search`
+
+.. include:: footer.txt

@@ -17,7 +17,7 @@ in comma separated format with one file per line then:
 
 #. login to casper
 #. module load gufiwrappers
-#. **qdh --list=project,size,mtime,filename --owners=xyz123 --write-period=2010-2015 /**
+#. **qdh --storage=hpss --list=project,size,mtime,filename --owners=xyz123 --write-period=2010-2015 /**
 
 The above command will run GUFI query in **squall1** and generate the
 filelist under
