@@ -17,7 +17,7 @@ do
    fi
 done
 if [ ! -z "$help" ] ; then
-   ${EXEDIR}/qdh.ssh $@
+   ${EXEDIR}/qdh.ssh --help
 else
    ssh -t -oHostBasedAuthentication=yes squall.ucar.edu ${EXEDIR}/qdh.ssh $@
 fi
