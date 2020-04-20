@@ -11,8 +11,8 @@ args="$*"
 unset help
 for arg in $args
 do
-   if [[ $arg -eq "-h" && $arg -eq "--help" ]] ; then
-      help=true
+   if test "$arg" = "-h" || test "$arg" = "--help" ; then
+      help="help"
       break
    fi
 done
