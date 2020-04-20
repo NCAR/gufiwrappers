@@ -6,6 +6,7 @@ import time
 fuidpid = []
 fwp = []
 frp = []
+basedirdepth = 0
 
 def fixWpRpList( ):
    global fwp, frp
@@ -35,11 +36,7 @@ def parseNfill( fl ):
    Core function scheduled / map using multiprocessing module
    """
    import sys
-   global activefunc, prefixdir, fuidpid, fwp, frp
-   if len(prefixdir) > 1:
-      basedir = prefixdir
-   else:
-      basedir = ''
+   global activefunc, fuidpid, fwp, frp
    ref = {}
    with open(fl, encoding = "ISO-8859-1") as fh:
       l = 0
@@ -62,20 +59,11 @@ def parseNfill( fl ):
             if bool(frp) and (atime < frp[0] or atime > frp[1]):
                continue
             if not bool(fuidpid) or uid in fuidpid or proj in fuidpid:
-               if len(prefixdir) == 1:
-                  if len(basedir) == 0:
-                     basedir = path
-                  else:
-                     basedir = largestMatch( basedir, path )
-                  activefunc( ref, size, uid, mtime, atime, proj, fname, path )
-               else:
-                  if path.startswith(prefixdir):
-                     basedir = largestMatch( basedir, path )
-                     activefunc( ref, size, uid, mtime, atime, proj, fname, path )
+               activefunc( ref, size, uid, mtime, atime, proj, fname, path )
          except:
             print("Discarded line:",l,"from: ",fl,"line: ",tmp, file=sys.stderr)
          l += 1
-   return ref, basedir
+   return ref
 
 
 def crEntry( ):
@@ -106,7 +94,6 @@ def dataByUids( ref, size, uid, mtime, atime, proj, fname, path ):
    """
    Function for storing rows per uid
    """
-   global basedir, basedirlen
    fillData( ref, size, uid, mtime, atime, proj, fname, path )
 
 def dataByProjs( ref, size, uid, mtime, atime, proj, fname, path ):
@@ -120,10 +107,11 @@ def dataBySubDirs( ref, size, uid, mtime, atime, proj, fname, path ):
    """
    Function for storing rows per subdirs
    """
-   global prefixdir
-   lpref = len(prefixdir)
-   tmp = path[lpref+1:].split('/')
-   fillkey = tmp[0]
+   paths = path.split('/')
+   if len(paths) <= gufitreedepth:
+      fillkey = '.'
+   else:
+      fillkey = paths[gufitreedepth]
    fillData( ref, size, fillkey, mtime, atime, proj, fname, path )
 
 def conCatDataByKey( resfromtasks ):
@@ -131,10 +119,9 @@ def conCatDataByKey( resfromtasks ):
    Gathers all the data from all multiprocessing tasks and sums those
    to that of task-0
    """
-   totres, basedir = resfromtasks[0]
-   for ent, tmpbasedir in resfromtasks[1:]:
+   totres = resfromtasks[0]
+   for ent in resfromtasks[1:]:
       if len(ent) > 0:
-         basedir = largestMatch( basedir, tmpbasedir )
          for key in ent.keys():
             entuid = ent[key]
             if key in totres:
@@ -148,18 +135,25 @@ def conCatDataByKey( resfromtasks ):
       tot = totres[key]
       for attr in tot.keys():
           totrow[attr] += tot[attr]
-   return totres, totrow, basedir
+   return totres, totrow
+
+def getDirDepth( path ):
+   """
+   Returns depth of path
+   """
+   path = re.sub('/{2,}', '/', path)
+   if path.endswith('/'):
+      path = path[:-1]
+   return len(path.split('/'))
 
 
-
-def getDataByFields(np, databyfields, cfiles ):
+def getDataByFields(gufitree, np, databyfields, cfiles ):
    from multiprocessing import Pool
-   global activefunc
+   global activefunc, gufitreedepth
+   gufitreedepth = getDirDepth( gufitree )
    activefunc = databyfields
    p = Pool(np)
    resfromtasks = p.map(parseNfill, cfiles)
    p.close()
    p.join()
    return conCatDataByKey( resfromtasks )
-
-

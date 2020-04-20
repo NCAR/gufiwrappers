@@ -66,20 +66,8 @@ def executeGufiScriptOnServer( scriptfile ):
     Execute script from Casper to GUFI server
     """ 
     import subprocess
-    sshcmd = ['ssh', '-t', '-oHostBasedAuthentication=yes', 'squall.ucar.edu', scriptfile]
-    result = subprocess.run(sshcmd)
+    result = subprocess.run(scriptfile)
     
-def checkListFields( listfields ):
-    """ 
-    Checks if the list of items requested is valid
-    """ 
-    validfields = ['filename', 'size', 'owner', 'project', 'mtime', 'atime']
-    for ent in listfields:
-       if ent not in validfields:
-           print("The field ",ent," not valid, the list of valid field is: ", validfields)
-           exit(-1)
-    return True
-
 
 def driver( parsedata ):
     """

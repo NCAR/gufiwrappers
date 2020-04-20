@@ -11,6 +11,9 @@ import timefuncs as tm
 parsedata = {}
 
 def checkListFields( listfields ):
+    """
+    Checks the list fields matches with expected entries
+    """
     validfields = ['filename', 'size', 'owner', 'project', 'mtime', 'atime']
     for ent in listfields:
        if ent not in validfields:
@@ -19,14 +22,10 @@ def checkListFields( listfields ):
     return True
 
 
-def getCfiles4Tree( treename ):
-    print("-"*80)
-    print("Using cache file(s).. ",filen + ".*")
-    gufitree = gmap.fsnameToSearch( storage, treename )
-    filen = qg.getOutputFilename( cachedir, gufitree, remove=False )
-    return glob.glob(filen + '.*' )
-
 def parseCmdLine( ):
+    """
+    Actual parser is in cmdline module, here things are just passed along
+    """
     global parsedata
     username = getpass.getuser()
     gufitmp = os.path.join('/gpfs/fs1/scratch', username, 'gufi_tmp')
@@ -41,10 +40,12 @@ def parseCmdLine( ):
     parsedata = {'gufitmp':args.gufitmp, 'verbosity':args.verbosity, 'cachedir':os.path.join(gufitmp, 'raw'),
          'fuids':args.fuids, 'fpids':args.fpids, 'writep':tm.procPeriod( args.writep ),
          'readp':tm.procPeriod( args.readp ), 'storage':args.storage[0], 'treename':args.treename,
-         'byusers':args.byusers, 'byprojects':args.byprojects, 'bysubdirsof':args.subdirsof,
+         'byusers':args.byusers, 'byprojects':args.byprojects, 'bysubdirs':args.bysubdirs,
          'ncores':int(args.ncores), 'nsbins':int(args.nsbins), 'fields':fields} 
+    return parsedata
     
 if __name__ == "__main__":
-    parseCmdLine( )
+    parsedata = parseCmdLine( )
     gcache.driver( parsedata )
-#   grprt.driver( parsedata )
+    if parsedata['fields'] == None:
+       grprt.driver( parsedata )

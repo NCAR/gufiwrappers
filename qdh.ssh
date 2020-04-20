@@ -1,0 +1,37 @@
+#!/bin/bash
+
+unset MODULEPATH
+unset MODULEPATH_ROOT
+myuid=$(id -u)
+if [[ $myuid -ge 1000 ]]
+then
+   if [ -d /gpfs/u/apps/dav/opt/lmod/lmod ]
+   then
+      source /gpfs/u/apps/dav/modulefiles/default/localinit/localinit.sh 2>/dev/null
+   fi 
+fi
+unset myuid 
+
+
+EXEDIR=$(dirname ${BASH_SOURCE[0]})
+me=$0
+justme=$(echo $(basename $me)|cut -d\. -f1-1)
+
+ml purge
+ml ncarenv python
+ncar_pylib > /dev/null
+export LC_ALL="en_US.UTF-8"
+export LANG="en_US.UTF-8"
+
+helpstr=""
+for arg in $@
+do
+   if [[ "$arg" = "--help" ]] || [[ "$arg" = "-h" ]]; then
+      helpstr="help"
+   fi
+done
+if [ -z "$helpstr" ] ; then
+   $EXEDIR/$justme.py $*
+else
+   $EXEDIR/$justme.py $* | sed -e 's/qdh.py/qdh/g'
+fi
