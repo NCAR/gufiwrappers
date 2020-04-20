@@ -1,10 +1,10 @@
-gcache
+qdh
 ***********************
 
 .. argparse::
-   :func: parserForGcache
+   :func: parserForQdh
    :filename: ../cmdline.py
-   :prog: gcache
+   :prog: qdh.py
 
 This program generates the raw files querying GUFI-DB, for further
 processing by grprt. Optionally it generates the file lists if the
