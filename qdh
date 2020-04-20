@@ -1,4 +1,23 @@
 #!/bin/bash
 
+host=$(hostname)
+if [ ! $(hostname|grep casper) ] ; then
+   echo 'Please execute this utility from Casper only'
+   exit -1
+fi
+
 EXEDIR=$(dirname ${BASH_SOURCE[0]})
-ssh -t -oHostBasedAuthentication=yes squall.ucar.edu ${EXEDIR}/qdh.ssh $@
+args="$*"
+unset help
+for arg in $args
+do
+   if [[ $arg -eq "-h" && $arg -eq "--help" ]] ; then
+      help=true
+      break
+   fi
+done
+if [ ! -z "$help" ] ; then
+   ${EXEDIR}/qdh.ssh $@
+else
+   ssh -t -oHostBasedAuthentication=yes squall.ucar.edu ${EXEDIR}/qdh.ssh $@
+fi
