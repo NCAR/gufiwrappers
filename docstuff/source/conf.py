@@ -17,8 +17,8 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'gufiwrappers'
-copyright = '2019, Sidd'
+project = 'qdh'
+copyright = '2020, Sidd'
 author = 'Sidd'
 
 
