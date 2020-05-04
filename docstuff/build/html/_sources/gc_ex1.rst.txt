@@ -15,7 +15,7 @@ in comma separated format with one file per line then:
 
 #. login to casper
 #. module load gufiwrappers
-#. **qdh \-\-storage=hpss \-\-list=project,size,filename \-\-owners=xyz123 \-\-directory=/**
+#. **qdh --storage=hpss --list=project,size,filename --filter-by-users=xyz123 --directory=/**
 
 The above command will run GUFI query in **squall** and generate the
 filelist with date-time-stamped filename as:
