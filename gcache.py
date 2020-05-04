@@ -45,7 +45,7 @@ def conCatReport( cfiles, gufitmp, inputfields ):
                       fullname = '/'.join([tmp[6][7:],tmp[5]])
                    else:
                       proj = 'NULL'; 
-                      fullname = '/'.join([tmp[5][7:],tmp[4]])
+                      fullname = '/'.join([gm.searchToFsName(tmp[5]),tmp[4]])
                    if atime < mtime:
                       atime = mtime
                    fdict = {'filename':fullname, 'size':str(size), 'owner':gm.getUname( uid ),

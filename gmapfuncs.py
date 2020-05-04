@@ -125,8 +125,10 @@ def fsnameToSearch( storage, fsname ):
    Maps filesystem/HPSS tree name to GUFI-tree name
    """
    if storage.startswith(('campaign','project','scratch','work')):
-      if fsname.startswith(('/glade','/gpfs')): 
+      if fsname.startswith(('/glade/p','/glade/scratch','/glade/work')): 
          return '/search' + fsname
+      elif fsname.startswith(('/glade/campaign','/gpfs/csfs1')):
+         return '/search' + fsname[6:]
    else:
       return '/search/hpss' + fsname
    print("The path ",fsname,"in storage:",storage, " does not exist.. exiting!")
@@ -136,7 +138,10 @@ def searchToFsName( sname ):
    """
    Maps filesystem/HPSS tree name to GUFI-tree name
    """
-   return sname[7:]
+   if sname.startswith('/search/campaign'):
+      return '/glade' + sname[7:]
+   else:
+      return sname[7:]
 
 
 def getUlist( usrstr, vartype ):
